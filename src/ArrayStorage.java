@@ -9,32 +9,29 @@ public class ArrayStorage {
     int size = 0;
 
     void clear() {
-        for (int index=0; index < size(); index++)
+        for (int index = 0; index < size; index++) {
             storage[index] = null;
+        }
         size = 0;
     }
 
     void save(Resume r) {
-        storage[size()] = r;
+        storage[size] = r;
         size++;
     }
 
     Resume get(String uuid) {
-        int itemIndex = this.getItemIndex(uuid);
-        if (itemIndex >= 0){
-            return storage[itemIndex];
-        } return null;
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            return storage[index];
+        }
+        return null;
     }
 
     void delete(String uuid) {
-        int itemIndex = this.getItemIndex(uuid);
-        if (itemIndex >= 0){
-            Resume[] newStorage = new Resume[10000];
-            // System.arraycopy(Источник[], int С какого эл-та копировать, Получатель[],
-            //                  int С какого эл-та вставлять, int Сколько эл-тов)
-            System.arraycopy(storage, 0, newStorage, 0, itemIndex);
-            System.arraycopy(storage, itemIndex + 1, newStorage, itemIndex, size() -1);
-            storage = newStorage;
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            System.arraycopy(storage, index + 1, storage, index, size);
             size--;
         }
     }
@@ -50,11 +47,12 @@ public class ArrayStorage {
         return size;
     }
 
-    int getItemIndex(String uuid){
-        for (int index=0; index < size(); index++) {
+    int getIndex(String uuid) {
+        for (int index = 0; index < size; index++) {
             if (storage[index].uuid.equals(uuid)) {
                 return index;
             }
-        } return -1;
+        }
+        return -1;
     }
 }
