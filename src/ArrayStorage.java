@@ -5,7 +5,8 @@ import java.util.Objects;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+    int storageLimit = 10000;
+    Resume[] storage = new Resume[storageLimit];
     int size = 0;
 
     void clear() {
@@ -16,8 +17,10 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        storage[size] = r;
-        size++;
+        if (!isFull()) {
+            storage[size] = r;
+            size++;
+        }
     }
 
     Resume get(String uuid) {
@@ -31,7 +34,11 @@ public class ArrayStorage {
     void delete(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
-            System.arraycopy(storage, index + 1, storage, index, size);
+            int count = storage.length - 1 - index;
+            System.arraycopy(storage, index + 1, storage, index, count);
+            if (isFull()) {
+                storage[storageLimit - 1] = null;
+            }
             size--;
         }
     }
@@ -54,5 +61,9 @@ public class ArrayStorage {
             }
         }
         return -1;
+    }
+
+    boolean isFull() {
+        return size >= storageLimit;
     }
 }
