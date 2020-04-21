@@ -3,14 +3,13 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    int storageLimit = 10000;
-    Resume[] storage = new Resume[storageLimit];
+    final static int STORAGE_LIMIT = 10_000;
+    Resume[] storage = new Resume[STORAGE_LIMIT];
     int size = 0;
 
     public void clear() {
@@ -33,10 +32,10 @@ public class ArrayStorage {
         }
     }
 
-    public void update(String uuid, Resume r) {
+    public void update(String uuid, Resume resume) {
         int index = getIndex(uuid);
         if (index >= 0) {
-            storage[index] = r;
+            storage[index] = resume;
         } else {
             System.out.println("[ERROR] Resume '" + uuid + "' not found in storage for update");
         }
@@ -54,10 +53,10 @@ public class ArrayStorage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
-            int count = storage.length - 1 - index;
+            int count = size - 1 - index;
             System.arraycopy(storage, index + 1, storage, index, count);
             if (isFull()) {
-                storage[storageLimit - 1] = null;
+                storage[STORAGE_LIMIT - 1] = null;
             }
             size--;
             System.out.println("[INFO] Resume '" + uuid + "' deleted");
@@ -70,7 +69,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        return Arrays.stream(storage).filter(Objects::nonNull).toArray(Resume[]::new);
+        return Arrays.copyOf(storage, size);
     }
 
     public int size() {
@@ -87,7 +86,7 @@ public class ArrayStorage {
     }
 
     boolean isFull() {
-        return size >= storageLimit;
+        return size >= STORAGE_LIMIT;
     }
 
 
