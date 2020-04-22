@@ -1,5 +1,7 @@
-import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.ArrayStorage;
+package ru.javawebinar.basejava;
+
+import ru.javawebinar.basejava.webapp.model.Resume;
+import ru.javawebinar.basejava.webapp.storage.ArrayStorage;
 
 /**
  * Test for your ArrayStorage implementation
