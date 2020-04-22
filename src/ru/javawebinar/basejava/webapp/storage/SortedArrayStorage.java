@@ -2,16 +2,19 @@ package ru.javawebinar.basejava.webapp.storage;
 
 import ru.javawebinar.basejava.webapp.model.Resume;
 
-/**
- * Array based storage for Resumes
- */
-public class ArrayStorage extends AbstractArrayStorage {
+import java.util.Arrays;
 
+public class SortedArrayStorage extends AbstractArrayStorage{
+
+    @Override
     public void save(Resume resume) {
         if (!isFull()) {
             int index = getIndex(resume.getUuid());
             if (index < 0 || !resume.equals(storage[index])) {
-                storage[size] = resume;
+                int saveIndex = - (index + 1);
+                int count = size - saveIndex;
+                System.arraycopy(storage, saveIndex, storage, saveIndex + 1, count);
+                storage[saveIndex] = resume;
                 size++;
             } else {
                 System.out.println("[ERROR] Resume '" + resume.getUuid() + "' already exists!");
@@ -21,16 +24,10 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
+    @Override
     int getIndex(String uuid) {
-        for (int index = 0; index < size; index++) {
-            if (storage[index].getUuid().equals(uuid)) {
-                return index;
-            }
-        }
-        return -1;
+        Resume searchKey = new Resume();
+        searchKey.setUuid(uuid);
+        return Arrays.binarySearch(storage, 0, size, searchKey);
     }
-
-
-
-
 }
