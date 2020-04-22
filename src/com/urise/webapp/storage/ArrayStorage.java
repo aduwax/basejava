@@ -8,12 +8,12 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    final static int STORAGE_LIMIT = 10_000;
+    private final static int STORAGE_LIMIT = 10_000;
     Resume[] storage = new Resume[STORAGE_LIMIT];
     int size = 0;
 
     public void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
         System.out.println("[INFO] ArrayStorage cleaned. Size = 0");
     }
@@ -55,9 +55,7 @@ public class ArrayStorage {
         if (index >= 0) {
             int count = size - 1 - index;
             System.arraycopy(storage, index + 1, storage, index, count);
-            if (isFull()) {
-                storage[STORAGE_LIMIT - 1] = null;
-            }
+            storage[size - 1] = null;
             size--;
             System.out.println("[INFO] Resume '" + uuid + "' deleted");
         } else {
