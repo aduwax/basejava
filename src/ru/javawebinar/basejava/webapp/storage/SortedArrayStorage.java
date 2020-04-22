@@ -8,9 +8,9 @@ public class SortedArrayStorage extends AbstractArrayStorage{
 
     @Override
     public void save(Resume resume) {
-        if (!isFull()) {
+        if (size <= STORAGE_LIMIT) {
             int index = getIndex(resume.getUuid());
-            if (index < 0 || !resume.equals(storage[index])) {
+            if (index < 0) {
                 int saveIndex = - (index + 1);
                 int count = size - saveIndex;
                 System.arraycopy(storage, saveIndex, storage, saveIndex + 1, count);
@@ -26,8 +26,7 @@ public class SortedArrayStorage extends AbstractArrayStorage{
 
     @Override
     int getIndex(String uuid) {
-        Resume searchKey = new Resume();
-        searchKey.setUuid(uuid);
+        Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 }

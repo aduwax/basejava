@@ -58,8 +58,4 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     abstract int getIndex(String uuid);
-
-    boolean isFull() {
-        return size >= STORAGE_LIMIT;
-    }
 }

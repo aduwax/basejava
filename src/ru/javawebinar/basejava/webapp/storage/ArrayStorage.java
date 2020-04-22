@@ -8,9 +8,9 @@ import ru.javawebinar.basejava.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     public void save(Resume resume) {
-        if (!isFull()) {
+        if (size <= STORAGE_LIMIT) {
             int index = getIndex(resume.getUuid());
-            if (index < 0 || !resume.equals(storage[index])) {
+            if (index < 0) {
                 storage[size] = resume;
                 size++;
             } else {
