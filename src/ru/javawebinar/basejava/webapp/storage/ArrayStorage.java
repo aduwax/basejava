@@ -7,18 +7,9 @@ import ru.javawebinar.basejava.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    public void save(Resume resume) {
-        if (size <= STORAGE_LIMIT) {
-            int index = getIndex(resume.getUuid());
-            if (index < 0) {
-                storage[size] = resume;
-                size++;
-            } else {
-                System.out.println("[ERROR] Resume '" + resume.getUuid() + "' already exists!");
-            }
-        } else {
-            System.out.println("[ERROR] ArrayStorage is full!");
-        }
+    void putToArray(int index, Resume resume) {
+        storage[size] = resume;
+        size++;
     }
 
     int getIndex(String uuid) {
@@ -29,8 +20,5 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         return -1;
     }
-
-
-
 
 }
