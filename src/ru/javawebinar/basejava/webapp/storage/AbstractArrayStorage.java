@@ -37,7 +37,7 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void save(Resume resume) {
-        if (size <= STORAGE_LIMIT) {
+        if (size < STORAGE_LIMIT) {
             int index = getIndex(resume.getUuid());
             if (index < 0) {
                 putToArray(index, resume);
@@ -66,7 +66,6 @@ public abstract class AbstractArrayStorage implements Storage {
             System.arraycopy(storage, index + 1, storage, index, count);
             storage[size - 1] = null;
             size--;
-            System.out.println("[INFO] Resume '" + uuid + "' deleted");
         } else {
             throw new NotExistStorageException(uuid);
         }
