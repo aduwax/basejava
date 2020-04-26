@@ -11,7 +11,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         int count = size - saveIndex;
         System.arraycopy(storage, saveIndex, storage, saveIndex + 1, count);
         storage[saveIndex] = resume;
-        size++;
     }
 
     int getIndex(String uuid) {
