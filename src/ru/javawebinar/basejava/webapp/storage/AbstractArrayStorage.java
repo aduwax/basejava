@@ -61,15 +61,15 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
-            int count = size - 1 - index;
-            System.arraycopy(storage, index + 1, storage, index, count);
-            storage[size - 1] = null;
+            deleteItem(index);
             size--;
             System.out.println("[INFO] Resume '" + uuid + "' deleted");
         } else {
             System.out.println("[ERROR] Resume '" + uuid + "' not found in storage for delete");
         }
     }
+
+    abstract void deleteItem(int index);
 
     abstract int getIndex(String uuid);
 
