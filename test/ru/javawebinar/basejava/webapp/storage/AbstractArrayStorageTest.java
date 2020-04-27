@@ -95,13 +95,14 @@ abstract class AbstractArrayStorageTest {
 
     @Test
     void update() {
-        // Этот тест не проходит для SortedArrayStorage, но я пока не понял почему
-        // binarySearch возвращает -4, хотя объект есть в массиве
+        // storage.update не проводит пересортировку в случаях, когда обновляется uuid
+        // Поэтому если вместо UUID_3 обновить storage.update(UUID_1, resume) - тест упадет т.к.
+        // binarySearch вернёт -4 в storage.get(UUID_4) в случае SortedArrayStorage
         final Resume resume = new Resume(UUID_4);
         Assertions.assertAll(
-                () -> Assertions.assertDoesNotThrow(() -> storage.update(UUID_1, resume)),
-                () -> Assertions.assertEquals(resume, storage.get(resume.getUuid())),
-                () -> Assertions.assertThrows(NotExistStorageException.class, () -> storage.get(UUID_1))
+                () -> Assertions.assertDoesNotThrow(() -> storage.update(UUID_3, resume)),
+                () -> Assertions.assertEquals(resume, storage.get(UUID_4)),
+                () -> Assertions.assertThrows(NotExistStorageException.class, () -> storage.get(UUID_3))
         );
     }
 
