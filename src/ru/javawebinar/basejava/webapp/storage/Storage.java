@@ -7,7 +7,7 @@ public interface Storage {
 
     void save(Resume resume);
 
-    void update(String uuid, Resume resume);
+    void update(Resume resume);
 
     Resume get(String uuid);
 
