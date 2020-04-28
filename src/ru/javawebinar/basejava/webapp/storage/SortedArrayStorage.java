@@ -13,8 +13,22 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         storage[saveIndex] = resume;
     }
 
+    @Override
+    void updateItem(int index, Resume resume) {
+
+    }
+
+
+
     int getIndex(String uuid) {
         Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, size, searchKey);
+    }
+
+    @Override
+    void deleteItem(int index) {
+        int count = size - 1 - index;
+        System.arraycopy(storage, index + 1, storage, index, count);
+        storage[size - 1] = null;
     }
 }
