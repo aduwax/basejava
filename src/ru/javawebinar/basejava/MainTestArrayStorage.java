@@ -20,8 +20,8 @@ public class MainTestArrayStorage {
         ARRAY_STORAGE.save(r3);
 
         String updatedUuid = r2.getUuid().concat("_updated");
-        ARRAY_STORAGE.update(r2.getUuid(), new Resume(updatedUuid));
-        ARRAY_STORAGE.update("unknown_uuid", r2);
+        ARRAY_STORAGE.update(new Resume(updatedUuid));
+        ARRAY_STORAGE.update(r2);
         printAll();
 
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));

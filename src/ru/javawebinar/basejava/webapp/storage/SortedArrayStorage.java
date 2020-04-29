@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    void putToArray(int index, Resume resume) {
+    void saveToStorage(int index, Resume resume) {
         int saveIndex = -(index + 1);
         int count = size - saveIndex;
         System.arraycopy(storage, saveIndex, storage, saveIndex + 1, count);
@@ -15,10 +15,9 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    void deleteItem(int index) {
+    void deleteFromStorage(int index) {
         int count = size - 1 - index;
         System.arraycopy(storage, index + 1, storage, index, count);
-        storage[size - 1] = null;
     }
 
     @Override

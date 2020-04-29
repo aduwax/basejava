@@ -52,7 +52,7 @@ public class MainArray {
                     break;
                 case "update":
                     String updatedUuid = Objects.requireNonNull(uuid).concat("_updated");
-                    ARRAY_STORAGE.update(uuid, new Resume(updatedUuid));
+                    ARRAY_STORAGE.update(new Resume(updatedUuid));
                     printAll();
                     break;
                 case "clear":
