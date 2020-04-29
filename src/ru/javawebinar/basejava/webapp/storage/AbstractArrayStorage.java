@@ -1,5 +1,8 @@
 package ru.javawebinar.basejava.webapp.storage;
 
+import ru.javawebinar.basejava.webapp.exception.ExistStorageException;
+import ru.javawebinar.basejava.webapp.exception.NotExistStorageException;
+import ru.javawebinar.basejava.webapp.exception.StorageException;
 import ru.javawebinar.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -12,7 +15,6 @@ public abstract class AbstractArrayStorage implements Storage {
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
-        System.out.println("[INFO] ArrayStorage cleaned. Size = 0");
     }
 
     /**
@@ -31,21 +33,20 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             return storage[index];
         }
-        System.out.println("[ERROR] Resume '" + uuid + "' not found in storage, return null");
-        return null;
+        throw new NotExistStorageException(uuid);
     }
 
     public void save(Resume resume) {
-        if (size <= STORAGE_LIMIT) {
+        if (size < STORAGE_LIMIT) {
             int index = getIndex(resume.getUuid());
             if (index < 0) {
                 saveToStorage(index, resume);
                 size++;
             } else {
-                System.out.println("[ERROR] Resume '" + resume.getUuid() + "' already exists!");
+                throw new ExistStorageException(resume.getUuid());
             }
         } else {
-            System.out.println("[ERROR] ArrayStorage is full!");
+            throw new StorageException(resume.getUuid(), "Failed to save " + resume.getUuid() + " - Storage overflow!");
         }
     }
 
@@ -54,7 +55,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             storage[index] = resume;
         } else {
-            System.out.println("[ERROR] Resume '" + resume.getUuid() + "' not found in storage for update");
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 
@@ -64,9 +65,8 @@ public abstract class AbstractArrayStorage implements Storage {
             deleteFromStorage(index);
             storage[size - 1] = null;
             size--;
-            System.out.println("[INFO] Resume '" + uuid + "' deleted");
         } else {
-            System.out.println("[ERROR] Resume '" + uuid + "' not found in storage for delete");
+            throw new NotExistStorageException(uuid);
         }
     }
 
