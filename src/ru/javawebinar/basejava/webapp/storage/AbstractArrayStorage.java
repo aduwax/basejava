@@ -42,19 +42,20 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         }
     }
 
-//    public void update(String uuid, Resume resume) {
-//        int index = getIndex(uuid);
-//        if (index >= 0) {
-//            storage[index] = resume;
-//        } else {
-//            throw new NotExistStorageException(uuid);
-//        }
-//    }
+    public void update(String uuid, Resume resume) {
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            updateItem(index, resume);
+        } else {
+            throw new NotExistStorageException(uuid);
+        }
+    }
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
             deleteItem(index);
+            storage[size - 1] = null;
             size--;
         } else {
             throw new NotExistStorageException(uuid);
@@ -64,6 +65,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     @Override
     Resume getItem(int index) {
         return storage[index];
+    }
+
+    @Override
+    protected void updateItem(int index, Resume resume){
+        storage[index] = resume;
     }
 
     abstract int getIndex(String uuid);
