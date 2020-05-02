@@ -27,4 +27,11 @@ public class ArrayStorage extends AbstractArrayStorage {
         return -1;
     }
 
+    @Override
+    void deleteItem(int index) {
+        int count = size - 1 - index;
+        System.arraycopy(storage, index + 1, storage, index, count);
+    }
+
+
 }

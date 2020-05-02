@@ -7,7 +7,7 @@ import ru.javawebinar.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
     final static int STORAGE_LIMIT = 10_000;
     Resume[] storage = new Resume[STORAGE_LIMIT];
     int size = 0;
@@ -28,14 +28,6 @@ public abstract class AbstractArrayStorage implements Storage {
         return size;
     }
 
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index >= 0) {
-            return storage[index];
-        }
-        throw new NotExistStorageException(uuid);
-    }
-
     public void save(Resume resume) {
         if (size < STORAGE_LIMIT) {
             int index = getIndex(resume.getUuid());
@@ -53,7 +45,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index >= 0) {
-            storage[index] = resume;
+            updateItem(index, resume);
         } else {
             throw new NotExistStorageException(resume.getUuid());
         }
@@ -71,6 +63,15 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     abstract void deleteFromStorage(int index);
+    @Override
+    Resume getItem(int index) {
+        return storage[index];
+    }
+
+    @Override
+    protected void updateItem(int index, Resume resume){
+        storage[index] = resume;
+    }
 
     abstract int getIndex(String uuid);
 
