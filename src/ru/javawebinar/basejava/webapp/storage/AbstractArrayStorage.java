@@ -32,7 +32,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         if (size < STORAGE_LIMIT) {
             int index = getIndex(resume.getUuid());
             if (index < 0) {
-                putToArray(index, resume);
+                saveToStorage(index, resume);
                 size++;
             } else {
                 throw new ExistStorageException(resume.getUuid());
@@ -42,19 +42,19 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         }
     }
 
-    public void update(String uuid, Resume resume) {
-        int index = getIndex(uuid);
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
         if (index >= 0) {
             updateItem(index, resume);
         } else {
-            throw new NotExistStorageException(uuid);
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
-            deleteItem(index);
+            deleteFromStorage(index);
             storage[size - 1] = null;
             size--;
         } else {
@@ -62,6 +62,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         }
     }
 
+    abstract void deleteFromStorage(int index);
     @Override
     Resume getItem(int index) {
         return storage[index];
@@ -74,5 +75,5 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     abstract int getIndex(String uuid);
 
-    abstract void putToArray(int index, Resume resume);
+    abstract void saveToStorage(int index, Resume resume);
 }

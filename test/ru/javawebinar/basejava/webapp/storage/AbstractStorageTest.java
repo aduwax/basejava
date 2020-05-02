@@ -30,8 +30,6 @@ abstract class AbstractStorageTest {
     void clear() {
         storage.clear();
         Assertions.assertAll(
-                // Проверяем размер массива после очистки
-                () -> Assertions.assertEquals(0, storage.size()),
                 // Проверяем, что через get больше элементы мы найти не можем
                 () -> Assertions.assertThrows(NotExistStorageException.class, () -> storage.get(UUID_1)),
                 () -> Assertions.assertThrows(NotExistStorageException.class, () -> storage.get(UUID_2)),
@@ -46,7 +44,7 @@ abstract class AbstractStorageTest {
                 new Resume(UUID_2),
                 new Resume(UUID_3)
         };
-        Assertions.assertArrayEquals(storage.getAll(), expectedStorage);
+        Assertions.assertArrayEquals(expectedStorage, storage.getAll());
     }
 
     @Test
@@ -69,6 +67,7 @@ abstract class AbstractStorageTest {
         final Resume resume = new Resume(UUID_4);
         Assertions.assertAll(
                 () -> Assertions.assertDoesNotThrow(() -> storage.save(resume)),
+                () -> Assertions.assertEquals(4, storage.size()),
                 () -> Assertions.assertEquals(resume, storage.get(resume.getUuid()))
         );
     }
@@ -80,26 +79,22 @@ abstract class AbstractStorageTest {
 
     @Test
     void update() {
-        // Этот тест не проходит для SortedArrayStorage, но я пока не понял почему
-        // binarySearch возвращает -4, хотя объект есть в массиве
-        final Resume resume = new Resume(UUID_4);
+        final Resume resume = new Resume(UUID_3);
         Assertions.assertAll(
-                () -> Assertions.assertDoesNotThrow(() -> storage.update(UUID_1, resume)),
-                () -> Assertions.assertEquals(resume, storage.get(resume.getUuid())),
-                () -> Assertions.assertThrows(NotExistStorageException.class, () -> storage.get(UUID_1))
+                () -> Assertions.assertDoesNotThrow(() -> storage.update(resume)),
+                () -> Assertions.assertEquals(resume, storage.get(resume.getUuid()))
         );
     }
 
     @Test
     void updateNotExist() {
-        Assertions.assertThrows(NotExistStorageException.class, () -> storage.update(UUID_4, new Resume()));
+        Assertions.assertThrows(NotExistStorageException.class, () -> storage.update(new Resume()));
     }
 
     @Test
     void delete() {
         Assertions.assertAll(
                 () -> Assertions.assertDoesNotThrow(() -> storage.delete(UUID_3)),
-                () -> Assertions.assertEquals(2, storage.size()),
                 () -> Assertions.assertThrows(NotExistStorageException.class, () -> storage.get(UUID_3))
         );
     }

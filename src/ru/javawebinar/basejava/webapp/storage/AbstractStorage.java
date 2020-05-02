@@ -13,12 +13,12 @@ public abstract class AbstractStorage implements Storage{
         throw new NotExistStorageException(uuid);
     }
 
-    public void update(String uuid, Resume resume) {
-        int index = getIndex(uuid);
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
         if (index >= 0) {
             updateItem(index, resume);
         } else {
-            throw new NotExistStorageException(uuid);
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 

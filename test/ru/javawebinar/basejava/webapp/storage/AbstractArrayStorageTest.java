@@ -16,8 +16,6 @@ abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         Assertions.assertDoesNotThrow(() -> {
             final int storageLimit = AbstractArrayStorage.class.getDeclaredField("STORAGE_LIMIT").getInt(storage);
             for (int itemIndex = 0; itemIndex < storageLimit; itemIndex++) {
-                // Наверное, не очень хорошая идея крутить в цикле 10000 объектов резюме,
-                // может стоило поменять STORAGE_LIMIT и пересоздать массив через рефлексию или это тоже не очень?
                 storage.save(new Resume());
             }
         });
