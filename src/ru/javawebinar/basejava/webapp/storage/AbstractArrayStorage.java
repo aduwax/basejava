@@ -1,7 +1,6 @@
 package ru.javawebinar.basejava.webapp.storage;
 
 import ru.javawebinar.basejava.webapp.exception.ExistStorageException;
-import ru.javawebinar.basejava.webapp.exception.NotExistStorageException;
 import ru.javawebinar.basejava.webapp.exception.StorageException;
 import ru.javawebinar.basejava.webapp.model.Resume;
 
@@ -28,11 +27,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    public void save(Resume resume) {
+    public void saveToStorage(Resume resume) {
         if (size < STORAGE_LIMIT) {
             int index = getIndex(resume.getUuid());
             if (index < 0) {
-                saveToStorage(index, resume);
+                saveItem(index, resume);
                 size++;
             } else {
                 throw new ExistStorageException(resume.getUuid());
@@ -42,38 +41,25 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         }
     }
 
-    public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index >= 0) {
-            updateItem(index, resume);
-        } else {
-            throw new NotExistStorageException(resume.getUuid());
-        }
+    void deleteFromStorage(int index){
+        deleteItem(index);
+        storage[size - 1] = null;
+        size--;
     }
 
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index >= 0) {
-            deleteFromStorage(index);
-            storage[size - 1] = null;
-            size--;
-        } else {
-            throw new NotExistStorageException(uuid);
-        }
-    }
+    abstract void deleteItem(int index);
 
-    abstract void deleteFromStorage(int index);
     @Override
-    Resume getItem(int index) {
+    Resume getFromStorage(int index) {
         return storage[index];
     }
 
     @Override
-    protected void updateItem(int index, Resume resume){
+    protected void updateInStorage(int index, Resume resume){
         storage[index] = resume;
     }
 
     abstract int getIndex(String uuid);
 
-    abstract void saveToStorage(int index, Resume resume);
+    abstract void saveItem(int index, Resume resume);
 }

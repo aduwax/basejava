@@ -67,9 +67,9 @@ abstract class AbstractStorageTest {
         final Resume resume = new Resume(UUID_4);
         Assertions.assertAll(
                 () -> Assertions.assertDoesNotThrow(() -> storage.save(resume)),
-                () -> Assertions.assertEquals(4, storage.size()),
                 () -> Assertions.assertEquals(resume, storage.get(resume.getUuid()))
         );
+        Assertions.assertEquals(4, storage.size());
     }
 
     @Test
@@ -97,6 +97,7 @@ abstract class AbstractStorageTest {
                 () -> Assertions.assertDoesNotThrow(() -> storage.delete(UUID_3)),
                 () -> Assertions.assertThrows(NotExistStorageException.class, () -> storage.get(UUID_3))
         );
+        Assertions.assertEquals(2, storage.size());
     }
 
     @Test
