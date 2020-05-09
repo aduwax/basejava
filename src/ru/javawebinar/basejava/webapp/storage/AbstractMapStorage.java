@@ -30,22 +30,5 @@ public abstract class AbstractMapStorage extends AbstractStorage {
     }
 
     @Override
-    void updateInStorage(Object searchKey, Resume resume) {
-        storage.put(resume.getUuid(), resume);
-    }
-
-    @Override
-    Resume getFromStorage(Object searchKey) {
-        Resume resumeSearchKey = (Resume) searchKey;
-        return storage.get(resumeSearchKey.getUuid());
-    }
-
-    @Override
-    void deleteFromStorage(Object searchKey) {
-        Resume resumeSearchKey = (Resume) searchKey;
-        storage.remove(resumeSearchKey.getUuid());
-    }
-
-    @Override
-    abstract Resume getSearchKey(String searchKey);
+    abstract Object getSearchKey(String searchKey);
 }

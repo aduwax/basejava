@@ -29,12 +29,7 @@ public class Resume implements Comparable<Resume> {
     public String getUuid() {
         return uuid;
     }
-
-//    @Override
-//    public String toString() {
-//        return uuid;
-//    }
-
+    
     @Override
     public String toString() {
         return "Resume{" +
@@ -48,17 +43,9 @@ public class Resume implements Comparable<Resume> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Resume resume = (Resume) o;
-        return Objects.equals(uuid, resume.uuid);
+        return uuid.equals(resume.uuid) &&
+                fullName.equals(resume.fullName);
     }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Resume resume = (Resume) o;
-//        return uuid.equals(resume.uuid) &&
-//                fullName.equals(resume.fullName);
-//    }
 
     @Override
     public int hashCode() {
@@ -67,8 +54,10 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public int compareTo(Resume resume) {
-//        return Integer.compare(this.hashCode(), resume.hashCode());
-        return uuid.compareTo(resume.uuid);
+        int fullNameCompareResult = fullName.compareTo(resume.fullName);
+        return  fullNameCompareResult == 0
+                ? uuid.compareTo(resume.uuid)
+                : fullNameCompareResult;
     }
 
     public String getFullName() {
