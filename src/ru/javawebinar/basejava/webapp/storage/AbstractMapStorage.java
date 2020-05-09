@@ -4,7 +4,7 @@ import ru.javawebinar.basejava.webapp.model.Resume;
 
 import java.util.HashMap;
 
-public class MapStorage extends AbstractStorage {
+public abstract class AbstractMapStorage extends AbstractStorage {
     HashMap<String, Resume> storage = new HashMap<>();
 
     public void clear() {
@@ -47,7 +47,5 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    Resume getSearchKey(String uuid) {
-        return storage.get(uuid);
-    }
+    abstract Resume getSearchKey(String searchKey);
 }
