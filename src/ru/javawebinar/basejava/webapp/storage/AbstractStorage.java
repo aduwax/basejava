@@ -4,6 +4,9 @@ import ru.javawebinar.basejava.webapp.exception.ExistStorageException;
 import ru.javawebinar.basejava.webapp.exception.NotExistStorageException;
 import ru.javawebinar.basejava.webapp.model.Resume;
 
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class AbstractStorage implements Storage {
 
     public Resume get(String uuid) {
@@ -38,6 +41,12 @@ public abstract class AbstractStorage implements Storage {
         }
     }
 
+    public List<Resume> getAllSorted(){
+        Resume[] getAllArray = getAll();
+        Arrays.sort(getAllArray);
+        return Arrays.asList(getAllArray);
+    }
+
     abstract boolean storageObjectExist(String uuid);
 
     abstract void saveToStorage(Resume resume);
@@ -49,4 +58,6 @@ public abstract class AbstractStorage implements Storage {
     abstract void deleteFromStorage(Object searchKey);
 
     abstract Object getSearchKey(String uuid);
+
+    abstract Resume[] getAll();
 }
