@@ -2,24 +2,24 @@ package ru.javawebinar.basejava.webapp.storage;
 
 import ru.javawebinar.basejava.webapp.model.Resume;
 
-public class MapUuidStorage extends AbstractMapStorage {
+public class MapUuidStorage extends AbstractMapStorage<String> {
     @Override
     String getSearchKey(String uuid) {
         return uuid;
     }
 
     @Override
-    void updateInStorage(Object uuid, Resume resume) {
-        storage.put((String) uuid, resume);
+    void updateInStorage(String uuid, Resume resume) {
+        storage.put(uuid, resume);
     }
 
     @Override
-    Resume getFromStorage(Object uuid) {
-        return storage.get((String) uuid);
+    Resume getFromStorage(String uuid) {
+        return storage.get(uuid);
     }
 
     @Override
-    void deleteFromStorage(Object uuid) {
-        storage.remove((String) uuid);
+    void deleteFromStorage(String uuid) {
+        storage.remove(uuid);
     }
 }

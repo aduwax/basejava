@@ -7,7 +7,7 @@ import ru.javawebinar.basejava.webapp.model.Resume;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<SK> implements Storage {
 
     public Resume get(String uuid) {
         exceptionIfNotExist(uuid);
@@ -16,7 +16,7 @@ public abstract class AbstractStorage implements Storage {
 
     public void update(Resume resume) {
         exceptionIfNotExist(resume.getUuid());
-        Object searchKey = getSearchKey(resume.getUuid());
+        SK searchKey = getSearchKey(resume.getUuid());
         updateInStorage(searchKey, resume);
     }
 
@@ -52,13 +52,13 @@ public abstract class AbstractStorage implements Storage {
 
     abstract void saveToStorage(Resume resume);
 
-    abstract void updateInStorage(Object searchKey, Resume resume);
+    abstract void updateInStorage(SK searchKey, Resume resume);
 
-    abstract Resume getFromStorage(Object searchKey);
+    abstract Resume getFromStorage(SK searchKey);
 
-    abstract void deleteFromStorage(Object searchKey);
+    abstract void deleteFromStorage(SK searchKey);
 
-    abstract Object getSearchKey(String uuid);
+    abstract SK getSearchKey(String uuid);
 
     abstract Resume[] getAll();
 }
