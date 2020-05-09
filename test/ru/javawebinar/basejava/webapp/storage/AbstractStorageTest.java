@@ -7,6 +7,10 @@ import ru.javawebinar.basejava.webapp.exception.ExistStorageException;
 import ru.javawebinar.basejava.webapp.exception.NotExistStorageException;
 import ru.javawebinar.basejava.webapp.model.Resume;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 abstract class AbstractStorageTest {
     protected final Storage storage;
     protected static final String UUID_1 = "uuid1";
@@ -44,7 +48,12 @@ abstract class AbstractStorageTest {
                 new Resume(UUID_2),
                 new Resume(UUID_3)
         };
-        Assertions.assertArrayEquals(expectedStorage, storage.getAll());
+        // Запихал возвращаемое storage.getAll в лист т.к. в мапе элементы массива возвращаются не в том порядке
+        // (ищу индексы элементов expectedStorage в resumeList)
+        List<Resume> resumeList = new ArrayList<>(Arrays.asList(storage.getAll()));
+        for (Resume resume : expectedStorage) {
+            Assertions.assertNotEquals(-1, resumeList.indexOf(resume));
+        }
     }
 
     @Test

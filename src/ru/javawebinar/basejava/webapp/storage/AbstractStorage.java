@@ -7,48 +7,47 @@ import ru.javawebinar.basejava.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public Resume get(String uuid) {
-        if (storageObjectExist(uuid)) {
-            return getFromStorage(getIndex(uuid));
-        }
-        throw new NotExistStorageException(uuid);
+        exceptionIfNotExist(uuid);
+        return getFromStorage(getSearchKey(uuid));
     }
 
     public void update(Resume resume) {
-        if (storageObjectExist(resume.getUuid())) {
-            int index = getIndex(resume.getUuid());
-            updateInStorage(index, resume);
-        } else {
-            throw new NotExistStorageException(resume.getUuid());
-        }
+        exceptionIfNotExist(resume.getUuid());
+        Object searchKey = getSearchKey(resume.getUuid());
+        updateInStorage(searchKey, resume);
     }
 
     public void delete(String uuid) {
-        if (storageObjectExist(uuid)) {
-            deleteFromStorage(getIndex(uuid));
-        } else {
+        exceptionIfNotExist(uuid);
+        deleteFromStorage(getSearchKey(uuid));
+    }
+
+    public void save(Resume resume) {
+        exceptionIfExist(resume.getUuid());
+        saveToStorage(resume);
+    }
+
+    private void exceptionIfExist(String uuid){
+        if (storageObjectExist(uuid)){
+            throw new ExistStorageException(uuid);
+        }
+    }
+
+    private void exceptionIfNotExist(String uuid){
+        if (!storageObjectExist(uuid)){
             throw new NotExistStorageException(uuid);
         }
     }
 
-    public void save(Resume resume) {
-        if (!storageObjectExist(resume.getUuid())) {
-            saveToStorage(resume);
-        } else {
-            throw new ExistStorageException(resume.getUuid());
-        }
-    }
-
-    private boolean storageObjectExist(String uuid) {
-        return getIndex(uuid) >= 0;
-    }
+    abstract boolean storageObjectExist(String uuid);
 
     abstract void saveToStorage(Resume resume);
 
-    abstract void updateInStorage(int index, Resume resume);
+    abstract void updateInStorage(Object searchKey, Resume resume);
 
-    abstract Resume getFromStorage(int index);
+    abstract Resume getFromStorage(Object searchKey);
 
-    abstract void deleteFromStorage(int index);
+    abstract void deleteFromStorage(Object searchKey);
 
-    abstract int getIndex(String uuid);
+    abstract Object getSearchKey(String uuid);
 }
