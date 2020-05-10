@@ -3,9 +3,10 @@ package ru.javawebinar.basejava.webapp.storage;
 import ru.javawebinar.basejava.webapp.model.Resume;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractMapStorage extends AbstractStorage {
-    HashMap<String, Resume> storage = new HashMap<>();
+    private final Map<String, Resume> storage = new HashMap<>();
 
     public void clear() {
         storage.clear();
