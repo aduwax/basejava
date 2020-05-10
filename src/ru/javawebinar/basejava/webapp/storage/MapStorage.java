@@ -37,18 +37,16 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     Resume getFromStorage(Object searchKey) {
-        Resume resumeSearchKey = (Resume) searchKey;
-        return storage.get(resumeSearchKey.getUuid());
+        return storage.get((String) searchKey);
     }
 
     @Override
     void deleteFromStorage(Object searchKey) {
-        Resume resumeSearchKey = (Resume) searchKey;
-        storage.remove(resumeSearchKey.getUuid());
+        storage.remove((String) searchKey);
     }
 
     @Override
-    Resume getSearchKey(String uuid) {
-        return storage.get(uuid);
+    String getSearchKey(String uuid) {
+        return uuid;
     }
 }
