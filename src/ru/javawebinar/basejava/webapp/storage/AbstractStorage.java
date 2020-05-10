@@ -28,18 +28,18 @@ public abstract class AbstractStorage implements Storage {
     }
 
     private void exceptionIfExist(String uuid){
-        if (storageObjectExist(uuid)){
+        if (isExist(uuid)){
             throw new ExistStorageException(uuid);
         }
     }
 
     private void exceptionIfNotExist(String uuid){
-        if (!storageObjectExist(uuid)){
+        if (!isExist(uuid)){
             throw new NotExistStorageException(uuid);
         }
     }
 
-    abstract boolean storageObjectExist(String uuid);
+    abstract boolean isExist(String uuid);
 
     abstract void saveToStorage(Resume resume);
 

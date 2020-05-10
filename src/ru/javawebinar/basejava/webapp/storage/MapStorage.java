@@ -20,7 +20,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    boolean storageObjectExist(String uuid) {
+    boolean isExist(String uuid) {
         return storage.get(uuid) != null;
     }
 
