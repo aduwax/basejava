@@ -11,8 +11,8 @@ public class Resume implements Comparable<Resume> {
     private final String uuid;
     // Person full name
     private String fullName;
-    private Map<String, String> contacts;
-    private Map<SectionType, ResumeSection> sections;
+    private Map<String, String> contacts = new HashMap<>();
+    private final Map<SectionType, ResumeSection> sections = new HashMap<>();
 
     public Resume() {
         this(UUID.randomUUID().toString());
@@ -85,6 +85,14 @@ public class Resume implements Comparable<Resume> {
         sections.put(sectionType, section);
     }
 
+    public ResumeSection getSection(SectionType sectionType) {
+        return sections.get(sectionType);
+    }
+
+    public Map<SectionType, ResumeSection> getSections() {
+        return sections;
+    }
+
     interface ResumeSection {
         void write();
         String getTitle();
@@ -120,24 +128,48 @@ public class Resume implements Comparable<Resume> {
 
         @Override
         public void write() {
-
+            System.out.println(text);
         }
     }
 
-    private static class TimelineSection extends AbstractResumeSection {
+    public static class TextListSection extends AbstractResumeSection {
+        List<String> textLines = new ArrayList<>();
+        TextListSection(String title) {
+            super(title);
+        }
+
+        public List<String> getTextLines() {
+            return textLines;
+        }
+
+        public void addLine(String line){
+            textLines.add(line);
+        }
+
+        @Override
+        public void write() {
+            for (String line: textLines) {
+                System.out.println(line);
+            }
+        }
+    }
+
+    public static class TimelineSection extends AbstractResumeSection {
+        private final List<TimelineSectionRecord> timelineSectionRecords = new ArrayList<>();
+
         TimelineSection(String title) {
             super(title);
         }
 
-        private class TimelineSectionRecord {
-            private final Date dateBegin;
-            private final Date dateEnd;
+        public static class TimelineSectionRecord {
+            private final String dateBegin;
+            private final String dateEnd;
             private final String name;
             private final String description;
             private final String text;
-            TimelineSectionRecord(
-                    Date dateBegin,
-                    Date dateEnd,
+            public TimelineSectionRecord(
+                    String dateBegin,
+                    String dateEnd,
                     String name,
                     String description,
                     String text
@@ -149,21 +181,51 @@ public class Resume implements Comparable<Resume> {
                 this.text = text;
             }
 
-            private List<TimelineSectionRecord> timelineSectionRecords;
-
-            TimelineSectionRecord(
-                    Date dateBegin,
-                    Date dateEnd,
+            public TimelineSectionRecord(
+                    String dateBegin,
+                    String dateEnd,
                     String name,
                     String description
             ){
                 this(dateBegin, dateEnd, name, description, null);
             }
+
+            public String getDateBegin() {
+                return dateBegin;
+            }
+
+            public String getDateEnd() {
+                return dateEnd;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public String getDescription() {
+                return description;
+            }
+
+            public String getText() {
+                return text;
+            }
+
+            public String toString() {
+                return name + "\n" +
+                        dateBegin + " - " + dateEnd + " " + description + "\n" +
+                        text;
+            }
+        }
+
+        public void add(TimelineSectionRecord timelineSectionRecord){
+            timelineSectionRecords.add(timelineSectionRecord);
         }
 
         @Override
         public void write() {
-
+            for (TimelineSectionRecord record: timelineSectionRecords) {
+                System.out.println(record.toString());
+            }
         }
     }
 }
