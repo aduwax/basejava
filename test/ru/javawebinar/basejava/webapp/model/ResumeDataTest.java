@@ -19,7 +19,7 @@ public class ResumeDataTest {
         resume.setContacts(contacts);
 
         // Personal
-        Resume.TextSection personalSection = new Resume.TextSection(
+        TextSection personalSection = new TextSection(
             SectionType.PERSONAL.getTitle()
         );
         personalSection.setText("Аналитический склад ума, сильная логика, креативность, инициативность. " +
@@ -27,7 +27,7 @@ public class ResumeDataTest {
         resume.addSection(SectionType.PERSONAL, personalSection);
 
         // Qualifications
-        Resume.TextListSection qualificationsSection = new Resume.TextListSection(
+        TextListSection qualificationsSection = new TextListSection(
             SectionType.QUALIFICATIONS.getTitle()
         );
         qualificationsSection.addLine("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
@@ -36,12 +36,12 @@ public class ResumeDataTest {
         resume.addSection(SectionType.QUALIFICATIONS, qualificationsSection);
 
         // Experience
-        Resume.TimelineSection experienceSection = new Resume.TimelineSection(SectionType.EXPERIENCE.getTitle());
-        experienceSection.add(new Resume.TimelineSection.TimelineSectionRecord(
+        TimelineSection experienceSection = new TimelineSection(SectionType.EXPERIENCE.getTitle());
+        experienceSection.add(new TimelineSectionRecord(
                 "10/2013", "Сейчас", "Java Online Projects", "Автор проекта",
                 "Создание, организация и проведение Java онлайн проектов и стажировок."
         ));
-        experienceSection.add(new Resume.TimelineSection.TimelineSectionRecord(
+        experienceSection.add(new TimelineSectionRecord(
                 "10/2014", "01/2016", "Wrike", "Старший разработчик (backend)",
                 "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, " +
                         "Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, " +
@@ -58,7 +58,7 @@ public class ResumeDataTest {
         }
         System.out.println(delimiter);
 
-        for (Map.Entry<SectionType, Resume.ResumeSection> sectionEntry: resume.getSections().entrySet()) {
+        for (Map.Entry<SectionType, Section> sectionEntry: resume.getSections().entrySet()) {
             System.out.println(sectionEntry.getValue().getTitle());
             sectionEntry.getValue().write();
         }
