@@ -3,9 +3,10 @@ package ru.javawebinar.basejava.webapp.storage;
 import ru.javawebinar.basejava.webapp.model.Resume;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractMapStorage<SK> extends AbstractStorage<SK> {
-    HashMap<String, Resume> storage = new HashMap<>();
+    protected final Map<String, Resume> storage = new HashMap<>();
 
     public void clear() {
         storage.clear();
@@ -20,7 +21,7 @@ public abstract class AbstractMapStorage<SK> extends AbstractStorage<SK> {
     }
 
     @Override
-    boolean storageObjectExist(String uuid) {
+    boolean isExist(String uuid) {
         return storage.get(uuid) != null;
     }
 

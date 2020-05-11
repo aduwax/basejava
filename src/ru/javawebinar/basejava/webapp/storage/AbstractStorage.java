@@ -13,48 +13,49 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     public Resume get(String uuid) {
         LOG.info("Get storage: " + uuid);
-        exceptionIfNotExist(uuid);
-        return getFromStorage(getSearchKey(uuid));
+        return getFromStorage(getSearchKeyIfExist(uuid));
     }
 
     public void update(Resume resume) {
-        LOG.info("Update storage: " + resume.toString());
-        exceptionIfNotExist(resume.getUuid());
-        SK searchKey = getSearchKey(resume.getUuid());
+        SK searchKey = getSearchKeyIfExist(resume.getUuid());
         updateInStorage(searchKey, resume);
     }
 
+
     public void delete(String uuid) {
         LOG.info("Delete storage: " + uuid);
-        exceptionIfNotExist(uuid);
-        deleteFromStorage(getSearchKey(uuid));
+        deleteFromStorage(getSearchKeyIfExist(uuid));
     }
 
     public void save(Resume resume) {
         LOG.info("Save storage: " + resume.toString());
-        exceptionIfExist(resume.getUuid());
+        getSearchKeyIfNotExist(resume.getUuid());
         saveToStorage(resume);
     }
 
-    private void exceptionIfExist(String uuid){
-        if (storageObjectExist(uuid)){
+    private SK getSearchKeyIfNotExist(String uuid) {
+        if (isExist(uuid)) {
             throw new ExistStorageException(uuid);
+        } else {
+            return getSearchKey(uuid);
         }
     }
 
-    private void exceptionIfNotExist(String uuid){
-        if (!storageObjectExist(uuid)){
+    private SK getSearchKeyIfExist(String uuid) {
+        if (!isExist(uuid)) {
             throw new NotExistStorageException(uuid);
+        } else {
+            return getSearchKey(uuid);
         }
     }
 
-    public List<Resume> getAllSorted(){
+    public List<Resume> getAllSorted() {
         Resume[] getAllArray = getAll();
         Arrays.sort(getAllArray);
         return Arrays.asList(getAllArray);
     }
 
-    abstract boolean storageObjectExist(String uuid);
+    abstract boolean isExist(String uuid);
 
     abstract void saveToStorage(Resume resume);
 
