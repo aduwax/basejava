@@ -6,44 +6,50 @@ import ru.javawebinar.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<SK> implements Storage {
+    private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
 
     public Resume get(String uuid) {
+        LOG.info("Get storage: " + uuid);
         return getFromStorage(getSearchKeyIfExist(uuid));
     }
 
     public void update(Resume resume) {
-        Object searchKey = getSearchKeyIfExist(resume.getUuid());
+        SK searchKey = getSearchKeyIfExist(resume.getUuid());
         updateInStorage(searchKey, resume);
     }
 
+
     public void delete(String uuid) {
+        LOG.info("Delete storage: " + uuid);
         deleteFromStorage(getSearchKeyIfExist(uuid));
     }
 
     public void save(Resume resume) {
+        LOG.info("Save storage: " + resume.toString());
         getSearchKeyIfNotExist(resume.getUuid());
         saveToStorage(resume);
     }
 
-    private Object getSearchKeyIfNotExist(String uuid){
-        if (isExist(uuid)){
+    private SK getSearchKeyIfNotExist(String uuid) {
+        if (isExist(uuid)) {
             throw new ExistStorageException(uuid);
         } else {
             return getSearchKey(uuid);
         }
     }
 
-    private Object getSearchKeyIfExist(String uuid){
-        if (!isExist(uuid)){
+    private SK getSearchKeyIfExist(String uuid) {
+        if (!isExist(uuid)) {
             throw new NotExistStorageException(uuid);
         } else {
             return getSearchKey(uuid);
         }
     }
 
-    public List<Resume> getAllSorted(){
+    public List<Resume> getAllSorted() {
         Resume[] getAllArray = getAll();
         Arrays.sort(getAllArray);
         return Arrays.asList(getAllArray);
@@ -53,13 +59,13 @@ public abstract class AbstractStorage implements Storage {
 
     abstract void saveToStorage(Resume resume);
 
-    abstract void updateInStorage(Object searchKey, Resume resume);
+    abstract void updateInStorage(SK searchKey, Resume resume);
 
-    abstract Resume getFromStorage(Object searchKey);
+    abstract Resume getFromStorage(SK searchKey);
 
-    abstract void deleteFromStorage(Object searchKey);
+    abstract void deleteFromStorage(SK searchKey);
 
-    abstract Object getSearchKey(String uuid);
+    abstract SK getSearchKey(String uuid);
 
     abstract Resume[] getAll();
 }

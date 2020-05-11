@@ -5,7 +5,7 @@ import ru.javawebinar.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     final static int STORAGE_LIMIT = 10_000;
     Resume[] storage = new Resume[STORAGE_LIMIT];
     int size = 0;
@@ -36,18 +36,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    void updateInStorage(Object index, Resume resume) {
-        storage[(Integer) index] = resume;
+    void updateInStorage(Integer index, Resume resume) {
+        storage[index] = resume;
     }
 
     @Override
-    Resume getFromStorage(Object index) {
-        return storage[(Integer) index];
+    Resume getFromStorage(Integer index) {
+        return storage[index];
     }
 
     @Override
-    void deleteFromStorage(Object index) {
-        deleteItem((Integer) index);
+    void deleteFromStorage(Integer index) {
+        deleteItem(index);
         storage[size - 1] = null;
         size--;
     }

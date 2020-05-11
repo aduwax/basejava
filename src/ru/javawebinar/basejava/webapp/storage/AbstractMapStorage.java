@@ -5,7 +5,7 @@ import ru.javawebinar.basejava.webapp.model.Resume;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractMapStorage extends AbstractStorage {
+public abstract class AbstractMapStorage<SK> extends AbstractStorage<SK> {
     protected final Map<String, Resume> storage = new HashMap<>();
 
     public void clear() {
@@ -31,5 +31,5 @@ public abstract class AbstractMapStorage extends AbstractStorage {
     }
 
     @Override
-    abstract Object getSearchKey(String searchKey);
+    abstract SK getSearchKey(String searchKey);
 }
