@@ -5,8 +5,8 @@ import ru.javawebinar.basejava.webapp.model.Resume;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage {
-    private final Map<String, Resume> storage = new HashMap<>();
+public abstract class AbstractMapStorage extends AbstractStorage {
+    protected final Map<String, Resume> storage = new HashMap<>();
 
     public void clear() {
         storage.clear();
@@ -31,22 +31,5 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    void updateInStorage(Object searchKey, Resume resume) {
-        storage.put(resume.getUuid(), resume);
-    }
-
-    @Override
-    Resume getFromStorage(Object searchKey) {
-        return storage.get((String) searchKey);
-    }
-
-    @Override
-    void deleteFromStorage(Object searchKey) {
-        storage.remove((String) searchKey);
-    }
-
-    @Override
-    String getSearchKey(String uuid) {
-        return uuid;
-    }
+    abstract Object getSearchKey(String searchKey);
 }

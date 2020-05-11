@@ -19,6 +19,6 @@ abstract class AbstractArrayStorageTest extends AbstractStorageTest {
                 storage.save(new Resume());
             }
         });
-        Assertions.assertThrows(StorageException.class, () -> storage.save(new Resume(UUID_4)));
+        Assertions.assertThrows(StorageException.class, () -> storage.save(new Resume(UUID_4, UUID_4_NAME)));
     }
 }

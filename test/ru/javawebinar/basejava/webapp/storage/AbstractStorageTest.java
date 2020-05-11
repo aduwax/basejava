@@ -7,9 +7,7 @@ import ru.javawebinar.basejava.webapp.exception.ExistStorageException;
 import ru.javawebinar.basejava.webapp.exception.NotExistStorageException;
 import ru.javawebinar.basejava.webapp.model.Resume;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 abstract class AbstractStorageTest {
     protected final Storage storage;
@@ -17,6 +15,10 @@ abstract class AbstractStorageTest {
     protected static final String UUID_2 = "uuid2";
     protected static final String UUID_3 = "uuid3";
     protected static final String UUID_4 = "uuid4";
+    protected static final String UUID_1_NAME = "uuid1_name";
+    protected static final String UUID_2_NAME = "uuid2_name";
+    protected static final String UUID_3_NAME = "uuid3_name";
+    protected static final String UUID_4_NAME = "uuid4_name";
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -25,9 +27,9 @@ abstract class AbstractStorageTest {
     @BeforeEach
     void setUpEach() {
         storage.clear();
-        storage.save(new Resume(UUID_1));
-        storage.save(new Resume(UUID_2));
-        storage.save(new Resume(UUID_3));
+        storage.save(new Resume(UUID_1, UUID_1_NAME));
+        storage.save(new Resume(UUID_2, UUID_2_NAME));
+        storage.save(new Resume(UUID_3, UUID_3_NAME));
     }
 
     @Test
@@ -44,16 +46,12 @@ abstract class AbstractStorageTest {
     @Test
     void getAll() {
         final Resume[] expectedStorage = new Resume[]{
-                new Resume(UUID_1),
-                new Resume(UUID_2),
-                new Resume(UUID_3)
+                new Resume(UUID_1, UUID_1_NAME),
+                new Resume(UUID_2, UUID_2_NAME),
+                new Resume(UUID_3, UUID_3_NAME)
         };
-        // Запихал возвращаемое storage.getAll в лист т.к. в мапе элементы массива возвращаются не в том порядке
-        // (ищу индексы элементов expectedStorage в resumeList)
-        List<Resume> resumeList = new ArrayList<>(Arrays.asList(storage.getAll()));
-        for (Resume resume : expectedStorage) {
-            Assertions.assertNotEquals(-1, resumeList.indexOf(resume));
-        }
+        Arrays.sort(expectedStorage);
+        Assertions.assertArrayEquals(expectedStorage, storage.getAllSorted().toArray(new Resume[0]));
     }
 
     @Test
@@ -63,7 +61,7 @@ abstract class AbstractStorageTest {
 
     @Test
     void get() {
-        Assertions.assertEquals(new Resume(UUID_1), storage.get(UUID_1));
+        Assertions.assertEquals(new Resume(UUID_1, UUID_1_NAME), storage.get(UUID_1));
     }
 
     @Test
@@ -83,12 +81,12 @@ abstract class AbstractStorageTest {
 
     @Test
     void saveExist() {
-        Assertions.assertThrows(ExistStorageException.class, () -> storage.save(new Resume(UUID_1)));
+        Assertions.assertThrows(ExistStorageException.class, () -> storage.save(new Resume(UUID_1, UUID_1_NAME)));
     }
 
     @Test
     void update() {
-        final Resume resume = new Resume(UUID_3);
+        final Resume resume = new Resume(UUID_3, UUID_3_NAME);
         Assertions.assertAll(
                 () -> Assertions.assertDoesNotThrow(() -> storage.update(resume)),
                 () -> Assertions.assertEquals(resume, storage.get(resume.getUuid()))
