@@ -26,7 +26,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
         return size;
     }
 
-    public void saveToStorage(Resume resume) {
+    public void saveToStorage(Resume resume, Integer index) {
         if (size < STORAGE_LIMIT) {
             saveItem(getSearchKey(resume.getUuid()), resume);
             size++;

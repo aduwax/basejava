@@ -29,8 +29,8 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     public void save(Resume resume) {
         LOG.info("Save storage: " + resume.toString());
-        getSearchKeyIfNotExist(resume.getUuid());
-        saveToStorage(resume);
+        SK searchKey = getSearchKeyIfNotExist(resume.getUuid());
+        saveToStorage(resume, searchKey);
     }
 
     private SK getSearchKeyIfNotExist(String uuid) {
@@ -57,7 +57,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     abstract boolean isExist(String uuid);
 
-    abstract void saveToStorage(Resume resume);
+    abstract void saveToStorage(Resume resume, SK searchKey);
 
     abstract void updateInStorage(SK searchKey, Resume resume);
 

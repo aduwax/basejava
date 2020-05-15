@@ -25,7 +25,7 @@ public class ListStorage extends AbstractStorage<Integer> {
         return getSearchKey(uuid) != null;
     }
 
-    public void saveToStorage(Resume resume) {
+    public void saveToStorage(Resume resume, Integer index) {
         storage.add(resume);
     }
 

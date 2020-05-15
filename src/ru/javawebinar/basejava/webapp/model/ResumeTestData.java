@@ -3,9 +3,9 @@ package ru.javawebinar.basejava.webapp.model;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ResumeDataTest {
-    public static void main(String[] args) {
-        Resume resume = new Resume("uuid1", "Григорий Кислин");
+public class ResumeTestData {
+    public static Resume get(String uuid, String name) {
+        Resume resume = new Resume(uuid, name);
 
         // Set contacts
         Map<String, String> contacts = new HashMap<>();
@@ -37,16 +37,18 @@ public class ResumeDataTest {
 
         // Experience
         TimelineSection experienceSection = new TimelineSection(SectionType.EXPERIENCE.getTitle());
-        experienceSection.add(new TimelineSectionRecord(
-                "10/2013", "Сейчас", "Java Online Projects", "Автор проекта",
-                "Создание, организация и проведение Java онлайн проектов и стажировок."
-        ));
-        experienceSection.add(new TimelineSectionRecord(
-                "10/2014", "01/2016", "Wrike", "Старший разработчик (backend)",
+        experienceSection.add(new TimelineSectionRecord("Java Online Projects")
+            .addPeriod("10/2013", "Сейчас", "Автор проекта",
+                    "Создание, организация и проведение Java онлайн проектов и стажировок.")
+        );
+        experienceSection.add(new TimelineSectionRecord("Wrike").addPeriod("10/2014", "01/2016",
+                "Старший разработчик (backend)",
                 "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, " +
                         "Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, " +
-                        "авторизация по OAuth1, OAuth2, JWT SSO."
-        ));
+                        "авторизация по OAuth1, OAuth2, JWT SSO.")
+                .addPeriod("02/2016", "01/2019",
+                "Системный архитектор")
+        );
         resume.addSection(SectionType.EXPERIENCE, experienceSection);
 
         String delimiter = "\n----------------------------";
@@ -62,5 +64,6 @@ public class ResumeDataTest {
             System.out.println(sectionEntry.getValue().getTitle());
             sectionEntry.getValue().write();
         }
+        return resume;
     }
 }

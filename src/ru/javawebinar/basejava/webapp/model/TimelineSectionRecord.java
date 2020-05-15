@@ -1,58 +1,74 @@
 package ru.javawebinar.basejava.webapp.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TimelineSectionRecord {
-    private final String dateBegin;
-    private final String dateEnd;
+
+    private static class Period {
+        private final String dateBegin;
+        private final String dateEnd;
+        private final String description;
+        private final String text;
+
+        Period(String dateBegin, String dateEnd, String description, String text){
+            this.dateBegin = dateBegin;
+            this.dateEnd = dateEnd;
+            this.description = description;
+            this.text = text;
+        }
+
+        Period(String dateBegin, String dateEnd, String description){
+            this(dateBegin, dateEnd, description, null);
+        }
+
+        public String getDateBegin() {
+            return dateBegin;
+        }
+
+        public String getDateEnd() {
+            return dateEnd;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        @Override
+        public String toString() {
+            return dateBegin + " - " + dateEnd + " " + description + (text != null ? "\n" + text : "");
+        }
+    }
     private final String name;
-    private final String description;
-    private final String text;
+    private final List<Period> periods = new ArrayList<>();
 
-    public TimelineSectionRecord(
-            String dateBegin,
-            String dateEnd,
-            String name,
-            String description,
-            String text
-    ){
-        this.dateBegin = dateBegin;
-        this.dateEnd = dateEnd;
+    public TimelineSectionRecord(String name){
         this.name = name;
-        this.description = description;
-        this.text = text;
     }
 
-    public TimelineSectionRecord(
-            String dateBegin,
-            String dateEnd,
-            String name,
-            String description
-    ){
-        this(dateBegin, dateEnd, name, description, null);
+    public List<Period> getPeriods() {
+        return periods;
     }
 
-    public String getDateBegin() {
-        return dateBegin;
+    public TimelineSectionRecord addPeriod(String dateBegin, String dateEnd, String description, String text){
+        periods.add(new Period(dateBegin, dateEnd, description, text));
+        return this;
     }
 
-    public String getDateEnd() {
-        return dateEnd;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getText() {
-        return text;
+    public TimelineSectionRecord addPeriod(String dateBegin, String dateEnd, String description){
+        periods.add(new Period(dateBegin, dateEnd, description));
+        return this;
     }
 
     public String toString() {
-        return name + "\n" +
-                dateBegin + " - " + dateEnd + " " + description + "\n" +
-                text;
+        StringBuilder sb = new StringBuilder(name + "\n");
+        for (Period period:periods) {
+            sb.append(period.toString()).append("\n");
+        }
+        return sb.toString();
     }
 }

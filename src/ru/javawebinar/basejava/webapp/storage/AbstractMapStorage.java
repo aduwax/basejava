@@ -26,7 +26,7 @@ public abstract class AbstractMapStorage<SK> extends AbstractStorage<SK> {
     }
 
     @Override
-    void saveToStorage(Resume resume) {
+    void saveToStorage(Resume resume, SK searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 

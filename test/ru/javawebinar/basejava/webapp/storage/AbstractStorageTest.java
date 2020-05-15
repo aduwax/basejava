@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import ru.javawebinar.basejava.webapp.exception.ExistStorageException;
 import ru.javawebinar.basejava.webapp.exception.NotExistStorageException;
 import ru.javawebinar.basejava.webapp.model.Resume;
+import ru.javawebinar.basejava.webapp.model.ResumeTestData;
 
 import java.util.Arrays;
 
@@ -27,9 +28,9 @@ abstract class AbstractStorageTest {
     @BeforeEach
     void setUpEach() {
         storage.clear();
-        storage.save(new Resume(UUID_1, UUID_1_NAME));
-        storage.save(new Resume(UUID_2, UUID_2_NAME));
-        storage.save(new Resume(UUID_3, UUID_3_NAME));
+        storage.save(ResumeTestData.get(UUID_1, UUID_1_NAME));
+        storage.save(ResumeTestData.get(UUID_2, UUID_2_NAME));
+        storage.save(ResumeTestData.get(UUID_3, UUID_3_NAME));
     }
 
     @Test
@@ -46,9 +47,9 @@ abstract class AbstractStorageTest {
     @Test
     void getAll() {
         final Resume[] expectedStorage = new Resume[]{
-                new Resume(UUID_1, UUID_1_NAME),
-                new Resume(UUID_2, UUID_2_NAME),
-                new Resume(UUID_3, UUID_3_NAME)
+                ResumeTestData.get(UUID_1, UUID_1_NAME),
+                ResumeTestData.get(UUID_2, UUID_2_NAME),
+                ResumeTestData.get(UUID_3, UUID_3_NAME)
         };
         Arrays.sort(expectedStorage);
         Assertions.assertArrayEquals(expectedStorage, storage.getAllSorted().toArray(new Resume[0]));
@@ -61,7 +62,7 @@ abstract class AbstractStorageTest {
 
     @Test
     void get() {
-        Assertions.assertEquals(new Resume(UUID_1, UUID_1_NAME), storage.get(UUID_1));
+        Assertions.assertEquals(ResumeTestData.get(UUID_1, UUID_1_NAME), storage.get(UUID_1));
     }
 
     @Test
@@ -71,7 +72,7 @@ abstract class AbstractStorageTest {
 
     @Test
     void save() {
-        final Resume resume = new Resume(UUID_4);
+        final Resume resume = ResumeTestData.get(UUID_4, "Unknown name");
         Assertions.assertAll(
                 () -> Assertions.assertDoesNotThrow(() -> storage.save(resume)),
                 () -> Assertions.assertEquals(resume, storage.get(resume.getUuid()))
@@ -81,12 +82,12 @@ abstract class AbstractStorageTest {
 
     @Test
     void saveExist() {
-        Assertions.assertThrows(ExistStorageException.class, () -> storage.save(new Resume(UUID_1, UUID_1_NAME)));
+        Assertions.assertThrows(ExistStorageException.class, () -> storage.save(ResumeTestData.get(UUID_1, UUID_1_NAME)));
     }
 
     @Test
     void update() {
-        final Resume resume = new Resume(UUID_3, UUID_3_NAME);
+        final Resume resume = ResumeTestData.get(UUID_3, UUID_3_NAME);
         Assertions.assertAll(
                 () -> Assertions.assertDoesNotThrow(() -> storage.update(resume)),
                 () -> Assertions.assertEquals(resume, storage.get(resume.getUuid()))
@@ -95,7 +96,7 @@ abstract class AbstractStorageTest {
 
     @Test
     void updateNotExist() {
-        Assertions.assertThrows(NotExistStorageException.class, () -> storage.update(new Resume()));
+        Assertions.assertThrows(NotExistStorageException.class, () -> storage.update(ResumeTestData.get("not-found", "unknown")));
     }
 
     @Test
