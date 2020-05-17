@@ -5,6 +5,7 @@ import ru.javawebinar.basejava.webapp.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,14 +26,21 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     public void clear() {
         File[] files = directory.listFiles();
-        for (File file: files) {
-            file.delete();
+        if (files != null) {
+            for (File file : files) {
+                deleteFromStorage(file);
+            }
         }
     }
 
     @Override
     public int size() {
-        return Objects.requireNonNull(directory.listFiles()).length;
+        String[] list = directory.list();
+        if (list != null) {
+            return list.length;
+        } else {
+            throw new StorageException("Directory reading fail", null);
+        }
     }
 
     @Override
@@ -41,12 +49,21 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
+    Resume getFromStorage(File file) {
+        try {
+            return readFromStorage(file);
+        } catch (IOException e) {
+            throw new StorageException("Fail to getFromStorage");
+        }
+    }
+
+    @Override
     void saveToStorage(Resume resume, File file) {
         try {
             file.createNewFile();
             writeToStorage(resume, file);
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("File save error", file.getAbsolutePath(), e);
         }
     }
 
@@ -57,7 +74,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     void deleteFromStorage(File file) {
-        file.delete();
+        if (!file.delete()){
+            throw new StorageException("File delete failed", file.getAbsolutePath());
+        };
     }
 
     @Override
@@ -66,10 +85,19 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    public abstract List<Resume> getAll();
+    public List<Resume> getAll() {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Fail to read storage directory");
+        }
 
-    @Override
-    protected abstract Resume getFromStorage(File file);
+        List<Resume> list = new ArrayList<>();
+        for (File resumeFile: files) {
+            list.add(getFromStorage(resumeFile));
+        }
+        return list;
+    }
 
     protected abstract void writeToStorage(Resume resume, File file);
+    protected abstract Resume readFromStorage(File file) throws IOException;
 }
