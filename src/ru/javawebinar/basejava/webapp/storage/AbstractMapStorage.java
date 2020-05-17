@@ -2,7 +2,9 @@ package ru.javawebinar.basejava.webapp.storage;
 
 import ru.javawebinar.basejava.webapp.model.Resume;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractMapStorage<SK> extends AbstractStorage<SK> {
@@ -12,8 +14,8 @@ public abstract class AbstractMapStorage<SK> extends AbstractStorage<SK> {
         storage.clear();
     }
 
-    public Resume[] getAll() {
-        return (storage.values().toArray(new Resume[0]));
+    public List<Resume> getAll() {
+        return Arrays.asList(storage.values().toArray(new Resume[0]));
     }
 
     public int size() {
@@ -21,12 +23,7 @@ public abstract class AbstractMapStorage<SK> extends AbstractStorage<SK> {
     }
 
     @Override
-    boolean isExist(String uuid) {
-        return storage.get(uuid) != null;
-    }
-
-    @Override
-    void saveToStorage(Resume resume) {
+    void saveToStorage(Resume resume, SK searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 

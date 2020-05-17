@@ -4,6 +4,7 @@ import ru.javawebinar.basejava.webapp.exception.StorageException;
 import ru.javawebinar.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     final static int STORAGE_LIMIT = 10_000;
@@ -18,15 +19,15 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+    public List<Resume> getAll() {
+        return Arrays.asList(Arrays.copyOf(storage, size));
     }
 
     public int size() {
         return size;
     }
 
-    public void saveToStorage(Resume resume) {
+    public void saveToStorage(Resume resume, Integer index) {
         if (size < STORAGE_LIMIT) {
             saveItem(getSearchKey(resume.getUuid()), resume);
             size++;
@@ -53,8 +54,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    boolean isExist(String uuid) {
-        return getSearchKey(uuid) >= 0;
+    boolean isExist(Integer index) {
+        return index >= 0;
     }
 
     abstract void deleteItem(int index);

@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TextListSection extends AbstractSection {
-    List<String> textLines = new ArrayList<>();
-    TextListSection(String title) {
+    private final List<String> textLines = new ArrayList<>();
+
+    public TextListSection(String title) {
         super(title);
     }
 
@@ -13,14 +14,16 @@ public class TextListSection extends AbstractSection {
         return textLines;
     }
 
-    public void addLine(String line){
+    public void addLine(String line) {
         textLines.add(line);
     }
 
     @Override
-    public void write() {
-        for (String line: textLines) {
-            System.out.println(line);
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (String line : textLines) {
+            sb.append(line).append(" ");
         }
+        return sb.toString();
     }
 }

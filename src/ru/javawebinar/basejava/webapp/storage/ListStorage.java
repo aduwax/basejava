@@ -3,6 +3,7 @@ package ru.javawebinar.basejava.webapp.storage;
 import ru.javawebinar.basejava.webapp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage<Integer> {
@@ -12,8 +13,8 @@ public class ListStorage extends AbstractStorage<Integer> {
         storage.clear();
     }
 
-    public Resume[] getAll() {
-        return (storage.toArray(new Resume[0]));
+    public List<Resume> getAll() {
+        return Arrays.asList(storage.toArray(new Resume[0]));
     }
 
     public int size() {
@@ -21,11 +22,11 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    boolean isExist(String uuid) {
-        return getSearchKey(uuid) != null;
+    boolean isExist(Integer searchKey) {
+        return searchKey != null;
     }
 
-    public void saveToStorage(Resume resume) {
+    public void saveToStorage(Resume resume, Integer index) {
         storage.add(resume);
     }
 

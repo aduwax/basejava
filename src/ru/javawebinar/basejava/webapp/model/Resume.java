@@ -1,6 +1,6 @@
 package ru.javawebinar.basejava.webapp.model;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -14,15 +14,11 @@ public class Resume implements Comparable<Resume> {
     private final String uuid;
     // Person full name
     private String fullName;
-    private Map<String, String> contacts = new HashMap<>();
-    private final Map<SectionType, Section> sections = new HashMap<>();
+    private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
-    public Resume() {
-        this(UUID.randomUUID().toString());
-    }
-
-    public Resume(String uuid) {
-        this(uuid, "Unknown person");
+    public Resume(String fullName) {
+        this(UUID.randomUUID().toString(), fullName);
     }
 
     public Resume(String uuid, String fullName) {
@@ -34,36 +30,6 @@ public class Resume implements Comparable<Resume> {
         return uuid;
     }
 
-    @Override
-    public String toString() {
-        return "Resume{" +
-                "uuid='" + uuid + '\'' +
-                ", fullName='" + fullName + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Resume resume = (Resume) o;
-        return uuid.equals(resume.uuid) &&
-                fullName.equals(resume.fullName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(uuid, fullName);
-    }
-
-    @Override
-    public int compareTo(Resume resume) {
-        int fullNameCompareResult = fullName.compareTo(resume.fullName);
-        return fullNameCompareResult == 0
-                ? uuid.compareTo(resume.uuid)
-                : fullNameCompareResult;
-    }
-
     public String getFullName() {
         return fullName;
     }
@@ -72,27 +38,61 @@ public class Resume implements Comparable<Resume> {
         this.fullName = fullName;
     }
 
-    public Map<String, String> getContacts() {
+    public Map<ContactType, String> getContacts() {
         return contacts;
     }
 
-    public void setContacts(Map<String, String> contacts) {
+    public void setContacts(Map<ContactType, String> contacts) {
         this.contacts = contacts;
     }
 
-    public void addContact(String contactName, String contactData) {
+    public void addContact(ContactType contactName, String contactData) {
         contacts.put(contactName, contactData);
     }
 
-    public void addSection(SectionType sectionType, Section section) {
+    public void addSection(SectionType sectionType, AbstractSection section) {
         sections.put(sectionType, section);
     }
 
-    public Section getSection(SectionType sectionType) {
+    public AbstractSection getSection(SectionType sectionType) {
         return sections.get(sectionType);
     }
 
-    public Map<SectionType, Section> getSections() {
+    public Map<SectionType, AbstractSection> getSections() {
         return sections;
+    }
+
+    @Override
+    public String toString() {
+        return "Resume{" +
+                "uuid='" + uuid + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", contacts=" + contacts +
+                ", sections=" + sections +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Resume resume = (Resume) o;
+        return Objects.equals(uuid, resume.uuid) &&
+                Objects.equals(fullName, resume.fullName) &&
+                Objects.equals(contacts, resume.contacts) &&
+                Objects.equals(sections, resume.sections);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid, fullName, contacts, sections);
+    }
+
+    @Override
+    public int compareTo(Resume resume) {
+        int fullNameCompareResult = fullName.compareTo(resume.fullName);
+        return fullNameCompareResult == 0
+                ? uuid.compareTo(resume.uuid)
+                : fullNameCompareResult;
     }
 }
