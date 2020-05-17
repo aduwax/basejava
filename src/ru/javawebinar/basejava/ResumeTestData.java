@@ -1,21 +1,24 @@
-package ru.javawebinar.basejava.webapp.model;
+package ru.javawebinar.basejava;
 
-import java.util.HashMap;
+import ru.javawebinar.basejava.webapp.model.*;
+
+import java.time.YearMonth;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class ResumeTestData {
-    public static Resume get(String uuid, String name) {
+    public static Resume createInstance(String uuid, String name) {
         Resume resume = new Resume(uuid, name);
 
         // Set contacts
-        Map<String, String> contacts = new HashMap<>();
-        contacts.put("Тел.", "+7(921) 855-0482");
-        contacts.put("Skype", "grigory.kislin");
-        contacts.put("Почта", "gkislin@yandex.ru");
-        contacts.put("LinkedIn", "https://www.linkedin.com/in/gkislin");
-        contacts.put("GitHub", "https://github.com/gkislin");
-        contacts.put("StackOverflow", "https://stackoverflow.com/users/548473");
-        contacts.put("Домашняя страница", "http://gkislin.ru/");
+        Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+        contacts.put(ContactType.PHONE, "+7(921) 855-0482");
+        contacts.put(ContactType.SKYPE, "grigory.kislin");
+        contacts.put(ContactType.MAIL, "gkislin@yandex.ru");
+        contacts.put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
+        contacts.put(ContactType.STATCKOVERFLOW, "https://stackoverflow.com/users/548473");
+        contacts.put(ContactType.HOME_PAGE, "http://gkislin.ru/");
         resume.setContacts(contacts);
 
         // Personal
@@ -38,32 +41,37 @@ public class ResumeTestData {
         // Experience
         TimelineSection experienceSection = new TimelineSection(SectionType.EXPERIENCE.getTitle());
         experienceSection.add(new TimelineSectionRecord("Java Online Projects")
-            .addPeriod("10/2013", "Сейчас", "Автор проекта",
+            .addPeriod(YearMonth.of(2013, 10), YearMonth.now(), "Автор проекта",
                     "Создание, организация и проведение Java онлайн проектов и стажировок.")
         );
-        experienceSection.add(new TimelineSectionRecord("Wrike").addPeriod("10/2014", "01/2016",
+        experienceSection.add(new TimelineSectionRecord("Wrike").addPeriod(YearMonth.of(2014, 10),
+                YearMonth.of(2016, 1),
                 "Старший разработчик (backend)",
                 "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, " +
                         "Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, " +
                         "авторизация по OAuth1, OAuth2, JWT SSO.")
-                .addPeriod("02/2016", "01/2019",
+                .addPeriod(YearMonth.of(2016, 2), YearMonth.of(2019, 1),
                 "Системный архитектор")
         );
         resume.addSection(SectionType.EXPERIENCE, experienceSection);
 
+        return resume;
+    }
+
+    public static void main(String[] args) {
+        Resume resume = ResumeTestData.createInstance("uuid1", "Григорий Кислин");
         String delimiter = "\n----------------------------";
 
         // Write
         System.out.println(resume.getFullName() + delimiter);
-        for (Map.Entry<String, String> entry: contacts.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+        for (Map.Entry<ContactType, String> entry: resume.getContacts().entrySet()) {
+            System.out.println(entry.getKey().getTitle() + ": " + entry.getValue());
         }
         System.out.println(delimiter);
 
-        for (Map.Entry<SectionType, Section> sectionEntry: resume.getSections().entrySet()) {
+        for (Map.Entry<SectionType, AbstractSection> sectionEntry: resume.getSections().entrySet()) {
             System.out.println(sectionEntry.getValue().getTitle());
-            sectionEntry.getValue().write();
+            System.out.println(sectionEntry.getValue().toString());
         }
-        return resume;
     }
 }

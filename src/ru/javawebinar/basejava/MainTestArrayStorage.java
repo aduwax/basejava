@@ -11,16 +11,16 @@ public class MainTestArrayStorage {
     static final Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
-        Resume r1 = new Resume("uuid1");
-        Resume r2 = new Resume("uuid2");
-        Resume r3 = new Resume("uuid3");
+        Resume r1 = new Resume("uuid1", "Unknown Name");
+        Resume r2 = new Resume("uuid2", "Unknown Name");
+        Resume r3 = new Resume("uuid3", "Unknown Name");
 
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
 
         String updatedUuid = r2.getUuid().concat("_updated");
-        ARRAY_STORAGE.update(new Resume(updatedUuid));
+        ARRAY_STORAGE.update(new Resume(updatedUuid, "Unknown Person"));
         ARRAY_STORAGE.update(r2);
         printAll();
 

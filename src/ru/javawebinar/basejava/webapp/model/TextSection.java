@@ -3,7 +3,7 @@ package ru.javawebinar.basejava.webapp.model;
 public class TextSection extends AbstractSection {
     private String text;
 
-    TextSection(String title) {
+    public TextSection(String title) {
         super(title);
     }
 
@@ -16,7 +16,7 @@ public class TextSection extends AbstractSection {
     }
 
     @Override
-    public void write() {
-        System.out.println(text);
+    public String toString() {
+        return text;
     }
 }

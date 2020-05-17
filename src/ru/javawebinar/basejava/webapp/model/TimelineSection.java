@@ -6,7 +6,7 @@ import java.util.List;
 public class TimelineSection extends AbstractSection {
     private final List<TimelineSectionRecord> timelineSectionRecords = new ArrayList<>();
 
-    TimelineSection(String title) {
+    public TimelineSection(String title) {
         super(title);
     }
 
@@ -15,9 +15,11 @@ public class TimelineSection extends AbstractSection {
     }
 
     @Override
-    public void write() {
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
         for (TimelineSectionRecord record: timelineSectionRecords) {
-            System.out.println(record.toString());
+            sb.append(record.toString());
         }
+        return sb.toString();
     }
 }

@@ -1,32 +1,33 @@
 package ru.javawebinar.basejava.webapp.model;
 
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TimelineSectionRecord {
 
     private static class Period {
-        private final String dateBegin;
-        private final String dateEnd;
+        private final YearMonth dateBegin;
+        private final YearMonth dateEnd;
         private final String description;
         private final String text;
 
-        Period(String dateBegin, String dateEnd, String description, String text){
+        Period(YearMonth dateBegin, YearMonth dateEnd, String description, String text){
             this.dateBegin = dateBegin;
             this.dateEnd = dateEnd;
             this.description = description;
             this.text = text;
         }
 
-        Period(String dateBegin, String dateEnd, String description){
+        Period(YearMonth dateBegin, YearMonth dateEnd, String description){
             this(dateBegin, dateEnd, description, null);
         }
 
-        public String getDateBegin() {
+        public YearMonth getDateBegin() {
             return dateBegin;
         }
 
-        public String getDateEnd() {
+        public YearMonth getDateEnd() {
             return dateEnd;
         }
 
@@ -54,12 +55,12 @@ public class TimelineSectionRecord {
         return periods;
     }
 
-    public TimelineSectionRecord addPeriod(String dateBegin, String dateEnd, String description, String text){
+    public TimelineSectionRecord addPeriod(YearMonth dateBegin, YearMonth dateEnd, String description, String text){
         periods.add(new Period(dateBegin, dateEnd, description, text));
         return this;
     }
 
-    public TimelineSectionRecord addPeriod(String dateBegin, String dateEnd, String description){
+    public TimelineSectionRecord addPeriod(YearMonth dateBegin, YearMonth dateEnd, String description){
         periods.add(new Period(dateBegin, dateEnd, description));
         return this;
     }
