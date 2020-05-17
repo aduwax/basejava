@@ -12,7 +12,7 @@ public abstract class AbstractMapStorage<SK> extends AbstractStorage<SK> {
         storage.clear();
     }
 
-    public Resume[] getAllAsArray() {
+    public Resume[] getAll() {
         return (storage.values().toArray(new Resume[0]));
     }
 

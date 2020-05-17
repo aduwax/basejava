@@ -52,7 +52,7 @@ abstract class AbstractStorageTest {
                 ResumeTestData.createInstance(UUID_3, UUID_3_NAME)
         };
         Arrays.sort(expectedStorage);
-        Assertions.assertArrayEquals(expectedStorage, storage.getAll().toArray(new Resume[0]));
+        Assertions.assertArrayEquals(expectedStorage, storage.getAllSorted().toArray(new Resume[0]));
     }
 
     @Test

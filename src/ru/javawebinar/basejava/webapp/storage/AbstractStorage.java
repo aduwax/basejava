@@ -49,8 +49,8 @@ public abstract class AbstractStorage<SK> implements Storage {
         }
     }
 
-    public List<Resume> getAll() {
-        Resume[] getAllArray = getAllAsArray();
+    public List<Resume> getAllSorted() {
+        Resume[] getAllArray = getAll();
         Arrays.sort(getAllArray);
         return Arrays.asList(getAllArray);
     }
@@ -67,5 +67,5 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     abstract SK getSearchKey(String uuid);
 
-    abstract Resume[] getAllAsArray();
+    abstract Resume[] getAll();
 }

@@ -12,7 +12,7 @@ public class ListStorage extends AbstractStorage<Integer> {
         storage.clear();
     }
 
-    public Resume[] getAllAsArray() {
+    public Resume[] getAll() {
         return (storage.toArray(new Resume[0]));
     }
 

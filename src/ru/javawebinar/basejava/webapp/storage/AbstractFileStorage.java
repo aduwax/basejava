@@ -64,7 +64,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected abstract Resume[] getAllAsArray();
+    protected abstract Resume[] getAll();
 
     @Override
     protected abstract Resume getFromStorage(File file);
