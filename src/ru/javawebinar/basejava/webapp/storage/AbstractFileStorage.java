@@ -5,6 +5,7 @@ import ru.javawebinar.basejava.webapp.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
@@ -34,6 +35,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         return Objects.requireNonNull(directory.listFiles()).length;
     }
 
+    @Override
     boolean isExist(File file) {
         return file.exists();
     }
@@ -64,7 +66,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected abstract Resume[] getAll();
+    public abstract List<Resume> getAll();
 
     @Override
     protected abstract Resume getFromStorage(File file);

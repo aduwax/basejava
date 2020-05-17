@@ -14,6 +14,11 @@ public class MapResumeStorage extends AbstractMapStorage<Resume> {
     }
 
     @Override
+    protected boolean isExist(Resume resume) {
+        return resume != null;
+    }
+
+    @Override
     Resume getFromStorage(Resume searchKey) {
         Resume resumeSearchKey = (Resume) searchKey;
         return storage.get(resumeSearchKey.getUuid());
