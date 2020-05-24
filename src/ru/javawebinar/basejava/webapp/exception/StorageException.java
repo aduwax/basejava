@@ -1,7 +1,5 @@
 package ru.javawebinar.basejava.webapp.exception;
 
-import java.io.IOException;
-
 public class StorageException extends RuntimeException {
     private String uuid;
 
@@ -14,7 +12,7 @@ public class StorageException extends RuntimeException {
         this.uuid = uuid;
     }
 
-    public StorageException(String io_error, String name, IOException e) {
+    public StorageException(String io_error, String name, Exception e) {
         super(io_error + " " + name, e);
     }
 

@@ -20,6 +20,7 @@ abstract class AbstractStorageTest {
     protected static final String UUID_2_NAME = "uuid2_name";
     protected static final String UUID_3_NAME = "uuid3_name";
     protected static final String UUID_4_NAME = "uuid4_name";
+    protected static final String STORAGE_DIR = "storage";
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;

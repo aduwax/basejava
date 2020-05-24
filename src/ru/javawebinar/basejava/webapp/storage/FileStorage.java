@@ -2,25 +2,30 @@ package ru.javawebinar.basejava.webapp.storage;
 
 import ru.javawebinar.basejava.webapp.exception.StorageException;
 import ru.javawebinar.basejava.webapp.model.Resume;
+import ru.javawebinar.basejava.webapp.storage.strategy.StorageReadWriteStrategy;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
     private File directory;
 
-    protected AbstractFileStorage(File directory) {
-        Objects.requireNonNull(directory, "directory must not be null");
-        if (!directory.isDirectory()) {
-            throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
+    private StorageReadWriteStrategy readWriteStrategy;
+
+    protected FileStorage(String directory, StorageReadWriteStrategy readWriteStrategy) {
+        File directoryFile = new File(directory);
+        Objects.requireNonNull(directoryFile, "directory must not be null");
+
+        this.readWriteStrategy = readWriteStrategy;
+        if (!directoryFile.isDirectory()) {
+            throw new IllegalArgumentException(directoryFile.getAbsolutePath() + " is not directory");
         }
-        if (!directory.canRead() || !directory.canWrite()) {
-            throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
+        if (!directoryFile.canRead() || !directoryFile.canWrite()) {
+            throw new IllegalArgumentException(directoryFile.getAbsolutePath() + " is not readable/writable");
         }
-        this.directory = directory;
+        this.directory = directoryFile;
     }
 
     @Override
@@ -51,7 +56,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     Resume getFromStorage(File file) {
         try {
-            return readFromStorage(file);
+            return readWriteStrategy.readFromStorage(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Fail to getFromStorage");
         }
@@ -61,15 +66,19 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     void saveToStorage(Resume resume, File file) {
         try {
             file.createNewFile();
-            writeToStorage(resume, file);
         } catch (IOException e) {
             throw new StorageException("File save error", file.getAbsolutePath(), e);
         }
+        updateInStorage(file, resume);
     }
 
     @Override
     void updateInStorage(File file, Resume resume) {
-        writeToStorage(resume, file);
+        try {
+            readWriteStrategy.writeToStorage(resume, new BufferedOutputStream(new FileOutputStream(file)));
+        } catch (IOException e) {
+            throw new StorageException("File write error", resume.getUuid(), e);
+        }
     }
 
     @Override
@@ -97,7 +106,4 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
         return list;
     }
-
-    protected abstract void writeToStorage(Resume resume, File file);
-    protected abstract Resume readFromStorage(File file) throws IOException;
 }

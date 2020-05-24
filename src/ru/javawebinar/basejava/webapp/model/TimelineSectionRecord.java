@@ -1,12 +1,13 @@
 package ru.javawebinar.basejava.webapp.model;
 
+import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TimelineSectionRecord {
+public class TimelineSectionRecord implements Serializable {
 
-    private static class Period {
+    private static class Period implements Serializable {
         private final YearMonth dateBegin;
         private final YearMonth dateEnd;
         private final String description;

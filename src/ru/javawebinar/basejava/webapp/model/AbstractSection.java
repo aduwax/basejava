@@ -1,8 +1,9 @@
 package ru.javawebinar.basejava.webapp.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class AbstractSection {
+public abstract class AbstractSection implements Serializable {
     private final String title;
 
     AbstractSection(String title) {
