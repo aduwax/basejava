@@ -6,6 +6,9 @@ import java.util.List;
 public class TimelineSection extends AbstractSection {
     private final List<TimelineSectionRecord> timelineSectionRecords = new ArrayList<>();
 
+    private TimelineSection(){
+        super();
+    }
     public TimelineSection(String title) {
         super(title);
     }

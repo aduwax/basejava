@@ -1,17 +1,28 @@
 package ru.javawebinar.basejava.webapp.model;
 
+import ru.javawebinar.basejava.util.YearMonthAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class TimelineSectionRecord implements Serializable {
 
-    private static class Period implements Serializable {
-        private final YearMonth dateBegin;
-        private final YearMonth dateEnd;
-        private final String description;
-        private final String text;
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Period implements Serializable {
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
+        private YearMonth dateBegin;
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
+        private YearMonth dateEnd;
+        private String description;
+        private String text;
+
+        private Period(){}
 
         Period(YearMonth dateBegin, YearMonth dateEnd, String description, String text){
             this.dateBegin = dateBegin;
@@ -45,9 +56,12 @@ public class TimelineSectionRecord implements Serializable {
             return dateBegin + " - " + dateEnd + " " + description + (text != null ? "\n" + text : "");
         }
     }
-    private final String name;
+    private String name;
     private final List<Period> periods = new ArrayList<>();
 
+    private TimelineSectionRecord() {
+        super();
+    }
     public TimelineSectionRecord(String name){
         this.name = name;
     }
