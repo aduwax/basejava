@@ -80,6 +80,10 @@ public class TimelineSectionRecord implements Serializable {
         return this;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder(name + "\n");
         for (Period period:periods) {

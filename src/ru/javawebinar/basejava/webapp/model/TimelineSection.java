@@ -17,6 +17,10 @@ public class TimelineSection extends AbstractSection {
         timelineSectionRecords.add(timelineSectionRecord);
     }
 
+    public List<TimelineSectionRecord> getTimelineSectionRecords() {
+        return timelineSectionRecords;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
