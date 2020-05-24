@@ -1,10 +1,15 @@
 package ru.javawebinar.basejava.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractSection implements Serializable {
-    private final String title;
+    private String title;
+
+    AbstractSection(){}
 
     AbstractSection(String title) {
         this.title = title;

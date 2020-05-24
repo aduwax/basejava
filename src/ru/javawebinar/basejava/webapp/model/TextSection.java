@@ -3,6 +3,10 @@ package ru.javawebinar.basejava.webapp.model;
 public class TextSection extends AbstractSection {
     private String text;
 
+    private TextSection(){
+        super();
+    };
+
     public TextSection(String title) {
         super(title);
     }

@@ -1,4 +1,4 @@
-package ru.javawebinar.basejava.webapp;
+package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.webapp.model.Resume;
 
