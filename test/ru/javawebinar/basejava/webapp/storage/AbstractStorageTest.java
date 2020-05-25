@@ -3,6 +3,7 @@ package ru.javawebinar.basejava.webapp.storage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.javawebinar.basejava.webapp.Config;
 import ru.javawebinar.basejava.webapp.exception.ExistStorageException;
 import ru.javawebinar.basejava.webapp.exception.NotExistStorageException;
 import ru.javawebinar.basejava.webapp.model.Resume;
@@ -20,7 +21,7 @@ abstract class AbstractStorageTest {
     protected static final String UUID_2_NAME = "uuid2_name";
     protected static final String UUID_3_NAME = "uuid3_name";
     protected static final String UUID_4_NAME = "uuid4_name";
-    protected static final String STORAGE_DIR = "storage";
+    protected static final String STORAGE_DIR = Config.get().getStorageDir();
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
