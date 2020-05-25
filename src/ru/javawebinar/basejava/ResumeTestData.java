@@ -7,8 +7,12 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class ResumeTestData {
+    public static boolean makeSimpleResume = false;
     public static Resume createInstance(String uuid, String name) {
         Resume resume = new Resume(uuid, name);
+        if (makeSimpleResume) {
+            return resume;
+        }
 
         // Set contacts
         Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
