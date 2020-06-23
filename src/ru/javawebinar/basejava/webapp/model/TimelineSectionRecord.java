@@ -13,14 +13,14 @@ public class TimelineSectionRecord implements Serializable {
         private final String description;
         private final String text;
 
-        Period(YearMonth dateBegin, YearMonth dateEnd, String description, String text){
+        Period(YearMonth dateBegin, YearMonth dateEnd, String description, String text) {
             this.dateBegin = dateBegin;
             this.dateEnd = dateEnd;
             this.description = description;
             this.text = text;
         }
 
-        Period(YearMonth dateBegin, YearMonth dateEnd, String description){
+        Period(YearMonth dateBegin, YearMonth dateEnd, String description) {
             this(dateBegin, dateEnd, description, null);
         }
 
@@ -45,10 +45,11 @@ public class TimelineSectionRecord implements Serializable {
             return dateBegin + " - " + dateEnd + " " + description + (text != null ? "\n" + text : "");
         }
     }
+
     private final String name;
     private final List<Period> periods = new ArrayList<>();
 
-    public TimelineSectionRecord(String name){
+    public TimelineSectionRecord(String name) {
         this.name = name;
     }
 
@@ -56,19 +57,19 @@ public class TimelineSectionRecord implements Serializable {
         return periods;
     }
 
-    public TimelineSectionRecord addPeriod(YearMonth dateBegin, YearMonth dateEnd, String description, String text){
+    public TimelineSectionRecord addPeriod(YearMonth dateBegin, YearMonth dateEnd, String description, String text) {
         periods.add(new Period(dateBegin, dateEnd, description, text));
         return this;
     }
 
-    public TimelineSectionRecord addPeriod(YearMonth dateBegin, YearMonth dateEnd, String description){
+    public TimelineSectionRecord addPeriod(YearMonth dateBegin, YearMonth dateEnd, String description) {
         periods.add(new Period(dateBegin, dateEnd, description));
         return this;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder(name + "\n");
-        for (Period period:periods) {
+        for (Period period : periods) {
             sb.append(period.toString()).append("\n");
         }
         return sb.toString();

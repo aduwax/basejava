@@ -23,7 +23,7 @@ public class ResumeTestData {
 
         // Personal
         TextSection personalSection = new TextSection(
-            SectionType.PERSONAL.getTitle()
+                SectionType.PERSONAL.getTitle()
         );
         personalSection.setText("Аналитический склад ума, сильная логика, креативность, инициативность. " +
                 "Пурист кода и архитектуры.");
@@ -31,7 +31,7 @@ public class ResumeTestData {
 
         // Qualifications
         TextListSection qualificationsSection = new TextListSection(
-            SectionType.QUALIFICATIONS.getTitle()
+                SectionType.QUALIFICATIONS.getTitle()
         );
         qualificationsSection.addLine("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
         qualificationsSection.addLine("Version control: Subversion, Git, Mercury, ClearCase, Perforce");
@@ -41,8 +41,8 @@ public class ResumeTestData {
         // Experience
         TimelineSection experienceSection = new TimelineSection(SectionType.EXPERIENCE.getTitle());
         experienceSection.add(new TimelineSectionRecord("Java Online Projects")
-            .addPeriod(YearMonth.of(2013, 10), YearMonth.now(), "Автор проекта",
-                    "Создание, организация и проведение Java онлайн проектов и стажировок.")
+                .addPeriod(YearMonth.of(2013, 10), YearMonth.now(), "Автор проекта",
+                        "Создание, организация и проведение Java онлайн проектов и стажировок.")
         );
         experienceSection.add(new TimelineSectionRecord("Wrike").addPeriod(YearMonth.of(2014, 10),
                 YearMonth.of(2016, 1),
@@ -51,7 +51,7 @@ public class ResumeTestData {
                         "Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, " +
                         "авторизация по OAuth1, OAuth2, JWT SSO.")
                 .addPeriod(YearMonth.of(2016, 2), YearMonth.of(2019, 1),
-                "Системный архитектор")
+                        "Системный архитектор")
         );
         resume.addSection(SectionType.EXPERIENCE, experienceSection);
 
@@ -64,12 +64,12 @@ public class ResumeTestData {
 
         // Write
         System.out.println(resume.getFullName() + delimiter);
-        for (Map.Entry<ContactType, String> entry: resume.getContacts().entrySet()) {
+        for (Map.Entry<ContactType, String> entry : resume.getContacts().entrySet()) {
             System.out.println(entry.getKey().getTitle() + ": " + entry.getValue());
         }
         System.out.println(delimiter);
 
-        for (Map.Entry<SectionType, AbstractSection> sectionEntry: resume.getSections().entrySet()) {
+        for (Map.Entry<SectionType, AbstractSection> sectionEntry : resume.getSections().entrySet()) {
             System.out.println(sectionEntry.getValue().getTitle());
             System.out.println(sectionEntry.getValue().toString());
         }

@@ -83,9 +83,10 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     void deleteFromStorage(File file) {
-        if (!file.delete()){
+        if (!file.delete()) {
             throw new StorageException("File delete failed", file.getAbsolutePath());
-        };
+        }
+        ;
     }
 
     @Override
@@ -101,7 +102,7 @@ public class FileStorage extends AbstractStorage<File> {
         }
 
         List<Resume> list = new ArrayList<>();
-        for (File resumeFile: files) {
+        for (File resumeFile : files) {
             list.add(getFromStorage(resumeFile));
         }
         return list;
