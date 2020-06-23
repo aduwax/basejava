@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class FileStorage extends AbstractStorage<File> {
-    private File directory;
+    private final File directory;
 
-    private StorageReadWriteStrategy readWriteStrategy;
+    private final StorageReadWriteStrategy readWriteStrategy;
 
     protected FileStorage(String directory, StorageReadWriteStrategy readWriteStrategy) {
         File directoryFile = new File(directory);
@@ -30,22 +30,15 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                deleteFromStorage(file);
-            }
+        File[] files = getDirectoryFilesIfExists();
+        for (File file : files) {
+            deleteFromStorage(file);
         }
     }
 
     @Override
     public int size() {
-        String[] list = directory.list();
-        if (list != null) {
-            return list.length;
-        } else {
-            throw new StorageException("Directory reading fail", null);
-        }
+        return getDirectoryFilesIfExists().length;
     }
 
     @Override
@@ -86,7 +79,6 @@ public class FileStorage extends AbstractStorage<File> {
         if (!file.delete()) {
             throw new StorageException("File delete failed", file.getAbsolutePath());
         }
-        ;
     }
 
     @Override
@@ -96,15 +88,19 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public List<Resume> getAll() {
-        File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("Fail to read storage directory");
-        }
-
+        File[] files = getDirectoryFilesIfExists();
         List<Resume> list = new ArrayList<>();
         for (File resumeFile : files) {
             list.add(getFromStorage(resumeFile));
         }
         return list;
+    }
+
+    private File[] getDirectoryFilesIfExists(){
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Directory reading fail", null);
+        }
+        return files;
     }
 }
