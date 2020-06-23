@@ -39,12 +39,12 @@ public class ResumeTestData {
         resume.addSection(SectionType.QUALIFICATIONS, qualificationsSection);
 
         // Experience
-        TimelineSection experienceSection = new TimelineSection(SectionType.EXPERIENCE.getTitle());
-        experienceSection.add(new TimelineSectionRecord("Java Online Projects")
+        DatedListSection experienceSection = new DatedListSection(SectionType.EXPERIENCE.getTitle());
+        experienceSection.add(new DatedListSectionRecord("Java Online Projects")
                 .addPeriod(YearMonth.of(2013, 10), YearMonth.now(), "Автор проекта",
                         "Создание, организация и проведение Java онлайн проектов и стажировок.")
         );
-        experienceSection.add(new TimelineSectionRecord("Wrike").addPeriod(YearMonth.of(2014, 10),
+        experienceSection.add(new DatedListSectionRecord("Wrike").addPeriod(YearMonth.of(2014, 10),
                 YearMonth.of(2016, 1),
                 "Старший разработчик (backend)",
                 "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, " +
