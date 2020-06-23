@@ -30,7 +30,7 @@ public class MainFile {
         }
 
         // Вывожу остатки файлов
-        for (File file: onlyFilesList) {
+        for (File file : onlyFilesList) {
             printTreeItem(file.getName(), level);
         }
     }

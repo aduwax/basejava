@@ -8,5 +8,6 @@ import java.io.OutputStream;
 
 public interface StorageReadWriteStrategy {
     void writeToStorage(Resume r, OutputStream os) throws IOException;
+
     Resume readFromStorage(InputStream is) throws IOException;
 }

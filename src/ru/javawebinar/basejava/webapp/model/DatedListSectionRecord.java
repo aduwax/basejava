@@ -5,22 +5,22 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TimelineSectionRecord implements Serializable {
+public class DatedListSectionRecord implements Serializable {
 
     private static class Period implements Serializable {
         private final YearMonth dateBegin;
         private final YearMonth dateEnd;
         private final String description;
-        private final String text;
+        private final String represent;
 
-        Period(YearMonth dateBegin, YearMonth dateEnd, String description, String text){
+        Period(YearMonth dateBegin, YearMonth dateEnd, String description, String represent) {
             this.dateBegin = dateBegin;
             this.dateEnd = dateEnd;
             this.description = description;
-            this.text = text;
+            this.represent = represent;
         }
 
-        Period(YearMonth dateBegin, YearMonth dateEnd, String description){
+        Period(YearMonth dateBegin, YearMonth dateEnd, String description) {
             this(dateBegin, dateEnd, description, null);
         }
 
@@ -36,19 +36,20 @@ public class TimelineSectionRecord implements Serializable {
             return description;
         }
 
-        public String getText() {
-            return text;
+        public String getRepresent() {
+            return represent;
         }
 
         @Override
         public String toString() {
-            return dateBegin + " - " + dateEnd + " " + description + (text != null ? "\n" + text : "");
+            return dateBegin + " - " + dateEnd + " " + description + (represent != null ? "\n" + represent : "");
         }
     }
+
     private final String name;
     private final List<Period> periods = new ArrayList<>();
 
-    public TimelineSectionRecord(String name){
+    public DatedListSectionRecord(String name) {
         this.name = name;
     }
 
@@ -56,19 +57,19 @@ public class TimelineSectionRecord implements Serializable {
         return periods;
     }
 
-    public TimelineSectionRecord addPeriod(YearMonth dateBegin, YearMonth dateEnd, String description, String text){
-        periods.add(new Period(dateBegin, dateEnd, description, text));
+    public DatedListSectionRecord addPeriod(YearMonth dateBegin, YearMonth dateEnd, String description, String represent) {
+        periods.add(new Period(dateBegin, dateEnd, description, represent));
         return this;
     }
 
-    public TimelineSectionRecord addPeriod(YearMonth dateBegin, YearMonth dateEnd, String description){
+    public DatedListSectionRecord addPeriod(YearMonth dateBegin, YearMonth dateEnd, String description) {
         periods.add(new Period(dateBegin, dateEnd, description));
         return this;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder(name + "\n");
-        for (Period period:periods) {
+        for (Period period : periods) {
             sb.append(period.toString()).append("\n");
         }
         return sb.toString();

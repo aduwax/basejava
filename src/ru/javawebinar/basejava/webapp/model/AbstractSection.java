@@ -10,7 +10,7 @@ public abstract class AbstractSection implements Serializable {
         this.title = title;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 

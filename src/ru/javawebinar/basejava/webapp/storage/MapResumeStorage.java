@@ -30,4 +30,3 @@ public class MapResumeStorage extends AbstractMapStorage<Resume> {
         storage.remove(resumeSearchKey.getUuid());
     }
 }
-
