@@ -2,7 +2,7 @@ package ru.javawebinar.basejava.webapp.storage;
 
 import ru.javawebinar.basejava.webapp.exception.StorageException;
 import ru.javawebinar.basejava.webapp.model.Resume;
-import ru.javawebinar.basejava.webapp.storage.strategy.StorageReadWriteStrategy;
+import ru.javawebinar.basejava.webapp.storage.strategy.ReadWriteStrategy;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -18,9 +18,9 @@ import java.util.stream.Stream;
 public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
 
-    private final StorageReadWriteStrategy readWriteStrategy;
+    private final ReadWriteStrategy readWriteStrategy;
 
-    protected PathStorage(String dir, StorageReadWriteStrategy readWriteStrategy) {
+    protected PathStorage(String dir, ReadWriteStrategy readWriteStrategy) {
         Objects.requireNonNull(dir, "directory must not be null");
 
         this.readWriteStrategy = readWriteStrategy;
