@@ -5,7 +5,7 @@ import ru.javawebinar.basejava.webapp.model.Resume;
 
 import java.io.*;
 
-public class StorageObjectStreamReadWriteStrategy implements StorageReadWriteStrategy {
+public class ObjectStreamReadWriteStrategy implements ReadWriteStrategy {
 
     @Override
     public void writeToStorage(Resume resume, OutputStream outputStream) throws IOException {
